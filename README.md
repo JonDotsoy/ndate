@@ -11,7 +11,7 @@ Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style 
 Please install with deno:
 
 ```shell
-deno install ndate.ts
+deno install https://deno.land/x/ndate/ndate.ts
 ```
 
 Samples use:
