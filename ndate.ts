@@ -14,22 +14,40 @@ const dateParse = (val: string): Date => {
 
 let dateStyle: DateStyle = 'full';
 let timeStyle: TimeStyle = 'full';
-let newLine = true;
+let insertFinalNewLine = true;
 let local: string | undefined;
+let timeZone: string | undefined;
 let date = new Date();
-let json = false;
-let stdinRedeable = false;
+let outputAsEpoch = false;
+let outputAsEpochMS = false;
+let outputAsJSON = false;
+let stdinReadable = false;
 let showHelp = false;
+let crontab: string | undefined;
 
-const transformOptions: Record<string, (next: () => string | undefined) => void> = {
-    '-': () => { stdinRedeable = true },
-    '--zero': () => { newLine = false; },
-    '--date-style': (next) => { dateStyle = toDateStyle(next()) ?? 'full' },
-    '--time-style': (next) => { timeStyle = toTimeStyle(next()) ?? 'full' },
-    '--local': (next) => { local = next() },
-    '--json': () => { json = true },
-    '--date': (next) => {
-        const v = next();
+const parseCrontab = (str: string) => {
+    const res = /^((?<predefined>@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(?<every>@every ((?<every_value>\d+)(?<every_value_sign>ns|us|µs|ms|s|m|h))+)|(?<cron>(?<cron_minute>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_hour>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_day_month>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_month>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_day_week>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*))))$/.exec(str)
+
+    if (!res) return null
+
+    if (res.groups?.predefined)
+        return {
+            predefined: res.groups.predefined
+        }
+}
+
+const transformOptions: Record<string, (nextArgument: () => string | undefined) => void> = {
+    '-': () => { stdinReadable = true },
+    '--zero': () => { insertFinalNewLine = false; },
+    '--date-style': (nextArgument) => { dateStyle = toDateStyle(nextArgument()) ?? 'full' },
+    '--time-style': (nextArgument) => { timeStyle = toTimeStyle(nextArgument()) ?? 'full' },
+    '--time-zone': (nextArgument)=>{ timeZone = nextArgument() },
+    '--local': (nextArgument) => { local = nextArgument() },
+    '--json': () => { outputAsJSON = true },
+    '--epoch': () => { outputAsEpoch = true },
+    '--epoch-ms': () => { outputAsEpochMS = true },
+    '--date': (nextArgument) => {
+        const v = nextArgument();
         if (v) {
             date = dateParse(v);
         }
@@ -97,18 +115,23 @@ const run = async () => {
         return;
     }
 
-    if (stdinRedeable) {
+    if (stdinReadable) {
         const buff = new Uint8Array(256);
         await Deno.stdin.read(buff);
         const text = new TextDecoder().decode(buff.subarray(0, buff.findIndex(p => p === 0))).trim();
         date = dateParse(text);
     }
 
-    const dateStr = json ? date.toJSON() : date.toLocaleString(local, { dateStyle, timeStyle });
+    const toOutput = () => {
+        if (outputAsEpochMS) return Math.floor(date.getTime()).toString();
+        if (outputAsEpoch) return Math.floor(date.getTime() / 1000).toString();
+        if (outputAsJSON) return date.toJSON()
+        return date.toLocaleString(local, { dateStyle, timeStyle, timeZone });
+    }
 
-    Deno.stdout.write(new TextEncoder().encode(dateStr))
+    Deno.stdout.write(new TextEncoder().encode(toOutput()))
 
-    if (newLine) Deno.stdout.write(
+    if (insertFinalNewLine) Deno.stdout.write(
         new TextEncoder().encode(`\n`)
     )
 }
