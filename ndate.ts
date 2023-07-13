@@ -3,8 +3,21 @@ function renderDateTemplate(template: string, date: Date, locales?: string, opti
     const localeString = date.toLocaleString(locales, options)
     const parts = new Intl.DateTimeFormat(locales, options).formatToParts(date).map(({ type, value }) => [`local_${type}`, value] as const)
 
-    const values = Object.fromEntries([
-        [`local`,localeString],
+    const epochMS =  Math.floor(date.getTime());
+    const epoch =  Math.floor(date.getTime() / 1000);
+
+    const isoString = date.toISOString();
+    const utcString = date.toUTCString();
+
+    const values: Record<string, any> = Object.fromEntries([
+        [`epoch`, epoch],
+        [`epoch_ms`, epochMS],
+        [`json`, isoString],
+        [`iso`, isoString],
+        [`iso8601`, isoString],
+        [`utc`, utcString],
+        [`rfc7231`, utcString],
+        [`local`, localeString],
         ["time", date.getTime()],
         ["full_year", date.getFullYear()],
         ["utc_full_year", date.getUTCFullYear()],
@@ -43,7 +56,7 @@ function renderDateTemplate(template: string, date: Date, locales?: string, opti
         default: value => value,
     }
 
-    const regexp = /\{\{(?<keyword>\w+)(\:(?<transform>\w+)(\:(?<transform_options>[\w\:\-]+)))?\}\}/g
+    const regexp = /\{\{(?<keyword>\w+)(\:(?<transform>\w+)(\:(?<transform_options>[\w\:\-]+))?)?\}\}/g
     const stringTemplate:  string[] = []
     const substitution:  string[] = []
     let p: RegExpExecArray | null=null

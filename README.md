@@ -34,6 +34,13 @@ ndate --template '{{utc_full_year}}-{{utc_month:padStart:2:0}}-{{utc_date:padSta
 
 ## Options to `--template`
 
+- `{{epoch}}`: Date on [unix time](https://en.wikipedia.org/wiki/Unix_time) (It measures time by the number of **seconds** that have elapsed since 00:00:00 UTC on 1 January 1970)
+- `{{epoch_ms}}`: Date on [unix time](https://en.wikipedia.org/wiki/Unix_time) (It measures time by the number of **milliseconds** that have elapsed since 00:00:00 UTC on 1 January 1970)
+- `{{json}}`: Time on [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) (Alias of `{{iso8601}}`)
+- `{{iso}}`: Time on [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) (Alias of `{{iso8601}}`)
+- `{{iso8601}}`: Time on [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+- `{{utc}}`: Date in the [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-7.1.1.1) format (Alias of `{{rfc7231}}`)
+- `{{rfc7231}}`: Date in the [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-7.1.1.1) format
 - `{{time}}`: Result of `date.getTime()`
 - `{{full_year}}`: Result of `date.getFullYear()`
 - `{{utc_full_year}}`: Result of `date.getUTCFullYear()`
