@@ -19,6 +19,7 @@ Samples use:
 
 ```shell
 ndate # Tuesday, October 11, 2022 at 5:59:37 PM Chile Summer Time
+ndate -d 2023-07-13T06:40 # Thursday, July 13, 2023 at 6:40:00 AM Chile Standard Time
 ndate --local es-CL # martes, 11 de octubre de 2022, 17:59:14 hora de verano de Chile
 ndate --local en-CL # Tuesday, October 11, 2022 at 5:59:37 PM Chile Summer Time
 ndate --time-zone Asia/Tokyo --local en-US # Thursday, July 13, 2023 at 6:46:21 AM Japan Standard Time
