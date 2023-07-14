@@ -9,7 +9,7 @@ Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style 
              [-l <locale>] [-z] [-h]
 ```
 
-Install with brew:
+Install with [homebrew](https://brew.sh/):
 
 ```shell
 brew install jondotsoy/ndate/ndate
