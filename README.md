@@ -12,13 +12,13 @@ Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style 
 Install with [homebrew](https://brew.sh/):
 
 ```shell
-brew install --allow-env=TZ,LANG jondotsoy/ndate/ndate
+brew install jondotsoy/ndate/ndate
 ```
 
 Or install with deno:
 
 ```shell
-deno install https://deno.land/x/ndate/ndate.ts
+deno install --allow-env=TZ,LANG https://deno.land/x/ndate/ndate.ts
 ```
 
 Samples use:
