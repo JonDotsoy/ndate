@@ -20,23 +20,35 @@ function renderDateTemplate(template: string, date: Date, locales?: string, opti
         [`rfc7231`, utcString],
         [`local`, localeString],
         ["time", date.getTime()],
+
+        ["YYYY", date.getFullYear().toString().padStart(4,`0`)],
+        ["MM", (date.getMonth() + 1).toString().padStart(2,`0`)],
+        ["DD", date.getDate().toString().padStart(2,`0`)],
+
+        ["HH", date.getHours().toString().padStart(2,`0`)],
+        ["MM", date.getMinutes().toString().padStart(2,`0`)],
+        ["SS", date.getSeconds().toString().padStart(2,`0`)],
+        ["MS", date.getMilliseconds().toString().padStart(4,`0`)],
+
+
         ["full_year", date.getFullYear()],
-        ["utc_full_year", date.getUTCFullYear()],
         ["month", date.getMonth() + 1],
-        ["utc_month", date.getUTCMonth() + 1],
         ["date", date.getDate()],
-        ["utc_date", date.getUTCDate()],
         ["day", date.getDay()],
-        ["utc_day", date.getUTCDay()],
         ["hours", date.getHours()],
-        ["utc_hours", date.getUTCHours()],
         ["minutes", date.getMinutes()],
-        ["utc_minutes", date.getUTCMinutes()],
         ["seconds", date.getSeconds()],
-        ["utc_seconds", date.getUTCSeconds()],
         ["milliseconds", date.getMilliseconds()],
-        ["utc_milliseconds", date.getUTCMilliseconds()],
         ["timezone_offset", date.getTimezoneOffset()],
+
+        ["utc_full_year", date.getUTCFullYear()],
+        ["utc_month", date.getUTCMonth() + 1],
+        ["utc_date", date.getUTCDate()],
+        ["utc_day", date.getUTCDay()],
+        ["utc_hours", date.getUTCHours()],
+        ["utc_minutes", date.getUTCMinutes()],
+        ["utc_seconds", date.getUTCSeconds()],
+        ["utc_milliseconds", date.getUTCMilliseconds()],
         ...parts,
     ])
 
@@ -200,6 +212,9 @@ const run = async () => {
 
         return;
     }
+
+    if (timeZone) Deno.env.set(`TZ`, timeZone)
+    if (local) Deno.env.set(`LANG`, local)
 
     if (stdinReadable) {
         const buff = new Uint8Array(256);

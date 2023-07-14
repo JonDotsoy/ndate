@@ -12,7 +12,7 @@ Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style 
 Install with [homebrew](https://brew.sh/):
 
 ```shell
-brew install jondotsoy/ndate/ndate
+brew install --allow-env=TZ,LANG jondotsoy/ndate/ndate
 ```
 
 Or install with deno:
@@ -37,6 +37,7 @@ ndate --epoch # 1689255846
 ndate --epoch-ms # 1689255823663
 ndate --epoch-ms -z # 1689255823663%
 ndate --template '{{utc_full_year}}-{{utc_month:padStart:2:0}}-{{utc_date:padStart:2:0}}' # 2023-06-13
+ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 202330142030590781
 ```
 
 ## Options to `--template`
@@ -78,6 +79,13 @@ ndate --template '{{utc_full_year}}-{{utc_month:padStart:2:0}}-{{utc_date:padSta
 - `{{local_timeZoneName}}`: `timeZoneName` part of `Intl.DateTimeFormat`
 - `{{local_weekday}}`: `weekday` part of `Intl.DateTimeFormat`
 - `{{local_year}}`: `year` part of `Intl.DateTimeFormat`
+- `{{YYYY}}`: Full year in local time. Ej. `2023`.
+- `{{MM}}`: Month in local time. Ej. `07`, `12`.
+- `{{DD}}`: Day of month in local time. Ej. `09`, `31`.
+- `{{HH}}`: Hour in local time. Ej. `06`, `18`. 
+- `{{MM}}`: Minute in local time. Ej. `23`, `59`.
+- `{{SS}}`: Second in local time. Ej. `13`, `30`.
+- `{{MS}}`: Millisecond in local time. Ej. `0456`, `998`.
 
 
 **Sample**
