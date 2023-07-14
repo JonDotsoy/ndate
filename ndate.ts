@@ -1,4 +1,4 @@
-#!/usr/bin/env deno
+#!/usr/bin/env deno run
 
 function renderDateTemplate(template: string, date: Date, locales?: string, options?: Intl.DateTimeFormatOptions) {
     const localeString = date.toLocaleString(locales, options)
