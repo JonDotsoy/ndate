@@ -9,7 +9,13 @@ Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style 
              [-l <locale>] [-z] [-h]
 ```
 
-Please install with deno:
+Install with brew:
+
+```shell
+brew install jondotsoy/ndate/ndate
+```
+
+Or install with deno:
 
 ```shell
 deno install https://deno.land/x/ndate/ndate.ts
