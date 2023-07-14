@@ -82,10 +82,10 @@ ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 20233014203059
 - `{{YYYY}}`: Full year in local time. Ej. `2023`.
 - `{{MM}}`: Month in local time. Ej. `07`, `12`.
 - `{{DD}}`: Day of month in local time. Ej. `09`, `31`.
-- `{{HH}}`: Hour in local time. Ej. `06`, `18`. 
-- `{{MM}}`: Minute in local time. Ej. `23`, `59`.
-- `{{SS}}`: Second in local time. Ej. `13`, `30`.
-- `{{MS}}`: Millisecond in local time. Ej. `0456`, `998`.
+- `{{hh}}`: Hour in local time. Ej. `06`, `18`. 
+- `{{mm}}`: Minute in local time. Ej. `23`, `59`.
+- `{{ss}}`: Second in local time. Ej. `13`, `30`.
+- `{{ms}}`: Millisecond in local time. Ej. `0456`, `998`.
 
 
 **Sample**
