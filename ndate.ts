@@ -101,6 +101,7 @@ let date = new Date();
 let outputAsEpoch = false;
 let outputAsEpochMS = false;
 let outputAsJSON = false;
+let outputAsUTC = false;
 let stdinReadable = false;
 let showHelp = false;
 let template: string | undefined;
@@ -126,6 +127,7 @@ const transformOptions: Record<string, (nextArgument: () => string | undefined) 
     '--local': (nextArgument) => { local = nextArgument() },
     '--template': (nextArgument) => { template = nextArgument() },
     '--json': () => { outputAsJSON = true },
+    '--utc': () => { outputAsUTC = true },
     '--epoch': () => { outputAsEpoch = true },
     '--epoch-ms': () => { outputAsEpochMS = true },
     '--date': (nextArgument) => {
@@ -211,6 +213,7 @@ const run = async () => {
         if (outputAsEpochMS) return Math.floor(date.getTime()).toString();
         if (outputAsEpoch) return Math.floor(date.getTime() / 1000).toString();
         if (outputAsJSON) return date.toJSON()
+        if (outputAsUTC) return date.toUTCString()
         return date.toLocaleString(local, { dateStyle, timeStyle, timeZone });
     }
 
