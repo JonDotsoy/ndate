@@ -28,7 +28,7 @@ function renderDateTemplate(template: string, date: Date, locales?: string, opti
         ["hh", date.getHours().toString().padStart(2,`0`)],
         ["mm", date.getMinutes().toString().padStart(2,`0`)],
         ["ss", date.getSeconds().toString().padStart(2,`0`)],
-        ["ms", date.getMilliseconds().toString().padStart(4,`0`)],
+        ["ms", date.getMilliseconds().toString().padStart(3,`0`)],
 
 
         ["full_year", date.getFullYear()],
