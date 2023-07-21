@@ -1,0 +1,14 @@
+export const snapshot = {};
+
+snapshot[`show help 1`] = `
+"Usage: ndate [-] [--zero] [--date-style <full|long|medium|short|none>] [--time-style <full|long|medium|short|none>]
+" +
+  "             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
+" +
+  "             [--template <template>] [--json] [--utc] [--epoch] [--epoch-ms] [--date <date>]
+" +
+  "             [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>] [-z] [-h]
+"
+`;
+
+snapshot[`render date 1`] = `"miércoles, 13 de diciembre de 2023, 00:00:00 hora de verano de Chile"`;
