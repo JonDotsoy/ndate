@@ -3,10 +3,10 @@
 Date format to console.
 
 ```shell
-Usage: ndate [-] [--zero] [--date-style <full|long|medium|short>] [--time-style <full|long|medium|short>]
-             [--time-zone <time-zone>] [--local <locale>] [--template <template>]
-             [--json] [--epoch] [--epoch-ms] [--date <date>] [--help] [-j] [-d <date>]
-             [-l <locale>] [-z] [-h]
+Usage: ndate [-] [--zero] [--date-style <full|long|medium|short|none>] [--time-style <full|long|medium|short|none>]
+             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
+             [--template <template>] [--json] [--utc] [--epoch] [--epoch-ms] [--date <date>]
+             [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>] [-z] [-h]
 ```
 
 Install with [homebrew](https://brew.sh/):
