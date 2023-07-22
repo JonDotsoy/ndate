@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0](https://github.com/JonDotsoy/ndate/compare/v0.3.0...v0.4.0) (2023-07-22)
+
+
+### Features
+
+* configure config to release-please ([a089f8a](https://github.com/JonDotsoy/ndate/commit/a089f8ade133c77c9b2d83c341f1b1d317d42e9f))
+* upgrade version as extrafile ([df1a7a4](https://github.com/JonDotsoy/ndate/commit/df1a7a43cdf757fe595c45dc5479688abe835af6))
+* upgrade workflow ([6eee295](https://github.com/JonDotsoy/ndate/commit/6eee29549e60c9144a38e60a1a167a3e785206dd))
+
+
+### Reverts
+
+* "feat: initialize version" ([e695aab](https://github.com/JonDotsoy/ndate/commit/e695aabf6483a6b0ac6b65ffe38ebc50f27e73ea))
+
 ## [0.3.0](https://github.com/JonDotsoy/ndate/compare/v0.2.9...v0.3.0) (2023-07-22)
 
 
