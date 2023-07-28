@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - development
+      - release/alpha
+      - release/alpha-*
 
 permissions:
   contents: write
@@ -13,9 +15,17 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - id: setup
+        run: |
+            echo "PRERELEASE=${GITHUB_REF_NAME/release\//}" >> $GITHUB_OUTPUT
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
+          tag-separator: "-"
+          bump-minor-pre-major: true
           package-name: release-please-action
+          prerelease: true
+          # ${{ steps.setup.outputs.PRERELEASE }}
+          default-branch: ${{ github.ref_name }}
           version-file: version
           
