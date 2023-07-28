@@ -1,2 +1,2 @@
 all:
-	echo ok
+	echo ok2
