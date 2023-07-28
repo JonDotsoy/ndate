@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - development
+      - release/*
 
 permissions:
   contents: write
@@ -13,9 +14,24 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - run: gh pr view --json labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - id: setup
+        env:
+            SCRIPT: |
+                const e = /^release\/(?<name>\w+)/;
+                const groups = e.exec(process.env.GITHUB_REF_NAME)?.groups
+                const releaseName = groups?.name ?? "latest";
+                console.log(`RELEASE_NAME=${releaseName}`);
+                console.log(`PRERELEASE=${releaseName==="latest"?'true':'false'}`);
+        run: node -e "$SCRIPT" >> $GITHUB_OUTPUT
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
-          package-name: release-please-action
-          version-file: version
-          
+          prerelease: ${{ steps.setup.outputs.PRERELEASE }}
+          monorepo-tags: true
+          package-name: ${{ steps.setup.outputs.RELEASE_NAME }}
+          default-branch: ${{ github.ref_name }}
+
