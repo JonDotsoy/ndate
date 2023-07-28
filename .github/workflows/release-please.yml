@@ -17,7 +17,7 @@ jobs:
     steps:
       - id: setup
         run: |
-            echo "PRERELEASE=${$(echo "${{ github.ref_name }}")/release\//}" >> $GITHUB_OUTPUT
+            echo "PRERELEASE=${GITHUB_REF_NAME/release\//}" >> $GITHUB_OUTPUT
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
