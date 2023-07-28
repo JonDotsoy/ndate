@@ -17,7 +17,7 @@ jobs:
     steps:
       - id: setup
         env:
-            SCRIPT: |
+            SCRIPT: >
                 const e = /^release\/(?<name>\w+)/;
                 const releaseName = e.exec(process.env.GITHUB_REF_NAME)?.groups?.name ?? 'latest';
                 console.log(`RELEASE_NAME=${JSON.stringify(releaseName)}`);
