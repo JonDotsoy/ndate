@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/JonDotsoy/ndate/compare/v0.3.0...v0.4.0) (2023-07-28)
+
+
+### Features
+
+* configure makefile ([16b82d6](https://github.com/JonDotsoy/ndate/commit/16b82d68742102abc7ebde87ccc6483190ad953d))
+
 ## [0.3.0](https://github.com/JonDotsoy/ndate/compare/v0.2.9...v0.3.0) (2023-07-22)
 
 
