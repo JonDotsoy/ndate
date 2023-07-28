@@ -22,7 +22,8 @@ jobs:
         with:
           release-type: node
           package-name: release-please-action
-          prerelease: ${{ steps.setup.outputs.PRERELEASE }}
+          prerelease: true
+          # ${{ steps.setup.outputs.PRERELEASE }}
           default-branch: ${{ github.ref_name }}
           version-file: version
           
