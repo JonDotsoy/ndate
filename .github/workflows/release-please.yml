@@ -23,7 +23,7 @@ jobs:
           release-type: node
           tag-separator: "-"
           bump-minor-pre-major: true
-          package-name: release-please-action
+          package-name: ${{ steps.setup.outputs.PRERELEASE }}
           prerelease: true
           # ${{ steps.setup.outputs.PRERELEASE }}
           default-branch: ${{ github.ref_name }}
