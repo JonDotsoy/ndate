@@ -20,7 +20,7 @@ jobs:
             echo "PRERELEASE=${GITHUB_REF_NAME/release\//}" >> $GITHUB_OUTPUT
       - uses: google-github-actions/release-please-action@v3
         with:
-          release-type: base
+          release-type: node
           prerelease: true
           monorepo-tags: true
           package-name: ${{ steps.setup.outputs.PRERELEASE }}
