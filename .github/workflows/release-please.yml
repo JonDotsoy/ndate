@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - development
+      - release/alpha
+      - release/alpha-*
 
 permissions:
   contents: write
