@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0-alpha](https://github.com/JonDotsoy/ndate/compare/v0.4.0-alpha...v0.5.0-alpha) (2023-07-28)
+
+
+### Features
+
+* configure maker file ([f038a8e](https://github.com/JonDotsoy/ndate/commit/f038a8e515c7f2d6720200dfad33557444bc8a5f))
+
 ## [0.4.0-alpha](https://github.com/JonDotsoy/ndate/compare/v0.3.0...v0.4.0-alpha) (2023-07-28)
 
 
