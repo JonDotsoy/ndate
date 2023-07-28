@@ -2,10 +2,10 @@
 
 import { handler } from "./handler.ts";
 
-const run = async () => {
+const setup = async () => {
     for await (const buff of handler(Deno.args)) {
         Deno.stdout.write(buff)
     }
 }
 
-await run();
+await setup();
