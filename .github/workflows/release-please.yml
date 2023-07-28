@@ -22,6 +22,7 @@ jobs:
                 const releaseName = e.exec(process.env.GITHUB_REF_NAME)?.groups?.name ?? 'latest';
                 console.log(`RELEASE_NAME=${JSON.stringify(releaseName)}`);
         run: |
+            echo $SCRIPT
             node -e $SCRIPT >> $GITHUB_OUTPUT
       - uses: google-github-actions/release-please-action@v3
         with:
