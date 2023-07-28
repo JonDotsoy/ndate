@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0-alpha](https://github.com/JonDotsoy/ndate/compare/v0.3.0...v0.4.0-alpha) (2023-07-28)
+
+
+### Features
+
+* configure makefile ([16b82d6](https://github.com/JonDotsoy/ndate/commit/16b82d68742102abc7ebde87ccc6483190ad953d))
+
+
+### Miscellaneous Chores
+
+* release 0.4.0-alpha ([aa3ae3a](https://github.com/JonDotsoy/ndate/commit/aa3ae3ad025f5b1d4a11c70b395b9c3322d633e5))
+
 ## [0.3.0](https://github.com/JonDotsoy/ndate/compare/v0.2.9...v0.3.0) (2023-07-22)
 
 
