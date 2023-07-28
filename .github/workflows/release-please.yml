@@ -19,5 +19,6 @@ jobs:
         with:
           release-type: node
           package-name: release-please-action
+          default-branch: ${{ github.ref_name }}
           version-file: version
           
