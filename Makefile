@@ -1,2 +1,3 @@
 all:
 	echo ok2
+

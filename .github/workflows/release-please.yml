@@ -28,4 +28,5 @@ jobs:
           # ${{ steps.setup.outputs.PRERELEASE }}
           default-branch: ${{ github.ref_name }}
           version-file: version
+          monorepo-tags: ${{ steps.setup.outputs.PRERELEASE }}
           
