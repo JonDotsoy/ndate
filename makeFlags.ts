@@ -22,6 +22,7 @@ export function makeFlags(args: string[]) {
   let outputAsEpochMS = false;
   let outputAsJSON = false;
   let outputAsUTC = false;
+  let outputAsSheet = false;
   let stdinReadable = false;
   let showHelp = false;
   let template: string | undefined;
@@ -37,6 +38,7 @@ export function makeFlags(args: string[]) {
     '--local': (nextArgument) => { local = nextArgument(); },
     '--template': (nextArgument) => { template = nextArgument(); },
     '--json': () => { outputAsJSON = true; },
+    '--sheet': () => { outputAsSheet = true; },
     '--utc': () => { outputAsUTC = true; },
     '--epoch': () => { outputAsEpoch = true; },
     '--epoch-ms': () => { outputAsEpochMS = true; },
@@ -99,6 +101,7 @@ export function makeFlags(args: string[]) {
     outputAsEpochMS,
     outputAsJSON,
     outputAsUTC,
+    outputAsSheet,
     stdinReadable,
     showHelp,
     template,

@@ -7,6 +7,16 @@ import {
 import { renderDateTemplate } from "./lib/renderDateTemplate.ts";
 import { makeFlags } from "./makeFlags.ts";
 
+const renderSheet = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const dayOfMonth = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `=DATE(${year};${month};${dayOfMonth})+TIME(${hours};${minutes};${seconds})`;
+};
+
 const makeHelpDialog = function* (
   transformOptions: Record<
     string,
@@ -70,6 +80,7 @@ export const handler = async function* (
     showHelp,
     template,
     transformOptions,
+    outputAsSheet,
     optionsLabels,
   } = makeFlags(args);
 
@@ -103,6 +114,7 @@ export const handler = async function* (
     if (outputAsEpoch) return Math.floor(date.getTime() / 1000).toString();
     if (outputAsJSON) return date.toJSON();
     if (outputAsUTC) return date.toUTCString();
+    if (outputAsSheet) return renderSheet(date);
     return date.toLocaleString(local, {
       dateStyle: toDateStyle(dateStyle),
       timeStyle: toTimeStyle(timeStyle),
