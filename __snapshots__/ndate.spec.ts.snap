@@ -5,9 +5,11 @@ snapshot[`show help 1`] = `
 " +
   "             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
 " +
-  "             [--template <template>] [--json] [--utc] [--epoch] [--epoch-ms] [--date <date>]
+  "             [--template <template>] [--json] [--sheet] [--utc] [--epoch] [--epoch-ms]
 " +
-  "             [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>] [-z] [-h]
+  "             [--date <date>] [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>]
+" +
+  "             [-z] [-h]
 "
 `;
 
@@ -20,6 +22,8 @@ snapshot[`format utc 1`] = `"Tue, 08 Aug 2023 03:38:58 GMT"`;
 snapshot[`format epoch 1`] = `"1691465938"`;
 
 snapshot[`format epoch ms 1`] = `"1691465938570"`;
+
+snapshot[`format sheet 1`] = `"=DATE(2023;8;7)+TIME(23;38;58)"`;
 
 snapshot[`format template 1`] = `
 "epoch:1691465938

@@ -121,6 +121,27 @@ Deno.test("format epoch ms", async (t) => {
 })
 
 
+Deno.test("format sheet", async (t) => {
+  await assertSnapshot(
+    t,
+    new TextDecoder().decode(
+      await joinUint8ArrayGenerator(
+        handler([
+          "-z",
+          "-d",
+          "2023-08-08T03:38:58.570Z",
+          "-l",
+          "es-cl",
+          '-tz',
+          "America/Santiago",
+          '--sheet'
+        ]),
+      ),
+    ),
+  );
+})
+
+
 Deno.test("format template", async (t) => {
   await assertSnapshot(
     t,
