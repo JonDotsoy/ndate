@@ -11,4 +11,106 @@ snapshot[`show help 1`] = `
 "
 `;
 
-snapshot[`render date 1`] = `"miércoles, 13 de diciembre de 2023, 00:00:00 hora de verano de Chile"`;
+snapshot[`render date 1`] = `"miércoles, 13 de diciembre de 2023, 01:00:00 hora de verano de Chile"`;
+
+snapshot[`format json 1`] = `"2023-08-08T03:38:58.570Z"`;
+
+snapshot[`format utc 1`] = `"Tue, 08 Aug 2023 03:38:58 GMT"`;
+
+snapshot[`format epoch 1`] = `"1691465938"`;
+
+snapshot[`format epoch ms 1`] = `"1691465938570"`;
+
+snapshot[`format template 1`] = `
+"epoch:1691465938
+" +
+  "epoch_ms:1691465938570
+" +
+  "json:2023-08-08T03:38:58.570Z
+" +
+  "iso:2023-08-08T03:38:58.570Z
+" +
+  "iso8601:2023-08-08T03:38:58.570Z
+" +
+  "utc:Tue, 08 Aug 2023 03:38:58 GMT
+" +
+  "rfc7231:Tue, 08 Aug 2023 03:38:58 GMT
+" +
+  "local:lunes, 7 de agosto de 2023, 23:38:58 hora estándar de Chile
+" +
+  "time:1691465938570
+" +
+  "YYYY:2023
+" +
+  "MM:08
+" +
+  "DD:07
+" +
+  "hh:23
+" +
+  "mm:38
+" +
+  "ss:58
+" +
+  "ms:570
+" +
+  "full_year:2023
+" +
+  "month:8
+" +
+  "date:7
+" +
+  "day:1
+" +
+  "hours:23
+" +
+  "minutes:38
+" +
+  "seconds:58
+" +
+  "milliseconds:570
+" +
+  "timezone_offset:240
+" +
+  "utc_full_year:2023
+" +
+  "utc_month:8
+" +
+  "utc_date:8
+" +
+  "utc_day:2
+" +
+  "utc_hours:3
+" +
+  "utc_minutes:38
+" +
+  "utc_seconds:58
+" +
+  "utc_milliseconds:570
+" +
+  "local_weekday:lunes
+" +
+  "local_literal: 
+" +
+  "local_day:7
+" +
+  "local_month:agosto
+" +
+  "local_year:2023
+" +
+  "local_hour:23
+" +
+  "local_minute:38
+" +
+  "local_second:58
+" +
+  "local_timeZoneName:hora estándar de Chile"
+`;
+
+snapshot[`format template with transform 1`] = `'"Tue, 08 Aug 2023 03:38:58 GMT"'`;
+
+snapshot[`format template with transform 2`] = `"Tue"`;
+
+snapshot[`format template with transform 3`] = `"0008"`;
+
+snapshot[`format template with transform 4`] = `"8000"`;
