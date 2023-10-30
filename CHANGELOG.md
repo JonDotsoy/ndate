@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.1](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.0-morgan...morgan-v0.4.1) (2023-10-30)
+
+
+### Features
+
+* unwrap handler ([ad75381](https://github.com/JonDotsoy/ndate/commit/ad7538179419017c0d2954546fbfdd986027e492))
+
+
+### Miscellaneous Chores
+
+* release 0.4.1 ([da20150](https://github.com/JonDotsoy/ndate/commit/da20150d8bbd5a543139b924036a14365672de71))
+
 ## 0.4.0-morgan (2023-10-28)
 
 
