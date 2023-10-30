@@ -20,7 +20,7 @@ const renderSheet = (date: Date) => {
 const makeHelpDialog = function* (
   transformOptions: Record<
     string,
-    (nextArgument: () => string | undefined) => void
+    unknown
   >,
   optionsLabels: Record<
     string,
