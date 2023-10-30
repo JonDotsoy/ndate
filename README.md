@@ -3,11 +3,11 @@
 Date format to console.
 
 ```shell
-Usage: ndate [-] [--zero] [--date-style <full|long|medium|short|none>] [--time-style <full|long|medium|short|none>]
-             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
-             [--template <template>] [--json] [--sheet] [--utc] [--epoch] [--epoch-ms]
-             [--date <date>] [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>]
-             [-z] [-h]
+Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|short|none>]
+             [--time-style <full|long|medium|short|none>] [--hour-cycles <h11|h12|h23|h24|none>]
+             [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
+             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
+             [--help] [-h] [--zero] [-z]
 ```
 
 Install with [homebrew](https://brew.sh/):
@@ -19,7 +19,7 @@ brew install jondotsoy/ndate/ndate@0.4
 Or install with deno:
 
 ```shell
-deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.0-morgan/ndate.ts
+deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.1/ndate.ts
 ```
 
 Samples use:
