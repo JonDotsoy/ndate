@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.1...morgan-v0.4.2) (2023-10-30)
+
+
+### Miscellaneous Chores
+
+* release 0.4.2 ([849a115](https://github.com/JonDotsoy/ndate/commit/849a11512db14b587226190c4fbeec76c2e7eb4a))
+
 ## [0.4.1](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.0-morgan...morgan-v0.4.1) (2023-10-30)
 
 
