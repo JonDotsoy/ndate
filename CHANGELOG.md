@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.2...morgan-v0.4.3) (2023-10-30)
+
+
+### Bug Fixes
+
+* upgrade types required on handler ([8e6f09c](https://github.com/JonDotsoy/ndate/commit/8e6f09c53f98cb16c0f10d434b2713620253a4a4))
+
 ## [0.4.2](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.1...morgan-v0.4.2) (2023-10-30)
 
 
