@@ -1,15 +1,15 @@
 export const snapshot = {};
 
 snapshot[`show help 1`] = `
-"Usage: ndate [-] [--zero] [--date-style <full|long|medium|short|none>] [--time-style <full|long|medium|short|none>]
+"Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|short|none>]
 " +
-  "             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
+  "             [--time-style <full|long|medium|short|none>] [--hour-cycles <h11|h12|h23|h24|none>]
 " +
-  "             [--template <template>] [--json] [--sheet] [--utc] [--epoch] [--epoch-ms]
+  "             [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
 " +
-  "             [--date <date>] [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>]
+  "             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
 " +
-  "             [-z] [-h]
+  "             [--help] [-h] [--zero] [-z]
 "
 `;
 
