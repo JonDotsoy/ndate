@@ -19,7 +19,7 @@ brew install jondotsoy/ndate/ndate@0.4
 Or install with deno:
 
 ```shell
-deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.1/ndate.ts
+deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.3/ndate.ts
 ```
 
 Samples use:
