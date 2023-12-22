@@ -188,4 +188,5 @@ Deno.test("Parse AST", () => {
     astCrontabParse("* * * jan *"),
     { body: [{}, {}, {}, { value: 1 }] },
   );
+  astCrontabParse("1,2-43,1/3,1-2/53 1,2-13,1/3,1-2/9 1,2-13,1/3,1-2/9 1,2-jun,1/3,1-2/9 1,2-4,1/3,1-2/3")
 })
