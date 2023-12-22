@@ -282,7 +282,7 @@ namespace monthExpressionPartParse {
     number,
   ])
 }
-namespace dayWeekExpressionPartParse {
+namespace dayOfWeekExpressionPartParse {
   export const number = NumberValueExpressionPartParse(0, 6, ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'])
   export const any = AnyValueExpressionPartParse
   export const range = RangeValueExpressionPartParse(number, number)
@@ -312,7 +312,7 @@ const parseMinuteExpressionPart = (expressionPart: ExpressionPart): MathExpressi
 const parseHourExpressionPart = (expressionPart: ExpressionPart): MathExpression => hourExpressionPartParse.all(expressionPart)
 const parseDayMonthExpressionPart = (expressionPart: ExpressionPart): MathExpression => dayOfMonthExpressionPartParse.all(expressionPart)
 const parseMonthExpressionPart = (expressionPart: ExpressionPart): MathExpression => monthExpressionPartParse.all(expressionPart)
-const parseDayWeekExpressionPart = (expressionPart: ExpressionPart): MathExpression => dayWeekExpressionPartParse.all(expressionPart)
+const parseDayWeekExpressionPart = (expressionPart: ExpressionPart): MathExpression => dayOfWeekExpressionPartParse.all(expressionPart)
 
 const parseExpressionPart = (expressionPart: ExpressionPart, index: number): MathExpression => {
   const parser = [parseMinuteExpressionPart, parseHourExpressionPart, parseDayMonthExpressionPart, parseMonthExpressionPart, parseDayWeekExpressionPart].at(index)
