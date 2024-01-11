@@ -13,7 +13,7 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
 Install with [homebrew](https://brew.sh/):
 
 ```shell
-brew install jondotsoy/ndate/ndate@0.4
+brew install jondotsoy/ndate/ndate
 ```
 
 Or install with deno:
