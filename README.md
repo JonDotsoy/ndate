@@ -3,22 +3,23 @@
 Date format to console.
 
 ```shell
-Usage: ndate [-] [--zero] [--date-style <full|long|medium|short|none>] [--time-style <full|long|medium|short|none>]
-             [--hour-cycles <h11|h12|h23|h24|none>] [--time-zone <time-zone>] [--local <locale>]
-             [--template <template>] [--json] [--utc] [--epoch] [--epoch-ms] [--date <date>]
-             [--help] [-j] [-d <date>] [-l <locale>] [-tz <time-zone>] [-z] [-h]
+Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|short|none>]
+             [--time-style <full|long|medium|short|none>] [--hour-cycles <h11|h12|h23|h24|none>]
+             [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
+             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
+             [--help] [-h] [--zero] [-z]
 ```
 
 Install with [homebrew](https://brew.sh/):
 
 ```shell
-brew install jondotsoy/ndate/ndate
+brew install jondotsoy/ndate/ndate@0.4
 ```
 
 Or install with deno:
 
 ```shell
-deno install --allow-env=TZ,LANG https://deno.land/x/ndate/ndate.ts
+deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.3/ndate.ts
 ```
 
 Samples use:
@@ -38,6 +39,7 @@ ndate --epoch-ms # 1689255823663
 ndate --epoch-ms -z # 1689255823663%
 ndate --template '{{utc_full_year}}-{{utc_month:padStart:2:0}}-{{utc_date:padStart:2:0}}' # 2023-06-13
 ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 202330142030590781
+ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
 ```
 
 ## Options to `--template`

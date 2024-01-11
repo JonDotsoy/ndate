@@ -1,91 +1,138 @@
-import { 
-    dateStyles,
-    timeStyles,
-    DateStyle,
-    TimeStyle,
-    toDateStyleString,
-    toTimeStyleString,
-    dateParse,
-    hourCycles,
-toHourCycleString,
- } from "./lib/common.ts";
+import {
+  dateParse,
+  DateStyle,
+  dateStyles,
+  hourCycles,
+  TimeStyle,
+  timeStyles,
+  toDateStyleString,
+  toHourCycleString,
+  toTimeStyleString,
+} from "./lib/common.ts";
+import {
+  describe,
+  flag,
+  flags,
+  Handler,
+  isBooleanAt,
+  isStringAt,
+  Rule,
+  Test,
+} from "npm:@jondotsoy/flags@2.0.2";
+
+const labelSymbol = Symbol("label");
+
+const setLabel = (obj: object, label: string) =>
+  Reflect.set(obj, labelSymbol, label);
+const getLabel = (obj: object) => Reflect.get(obj, labelSymbol);
+
+const describeLabel = (test: Test<any>, label: string): Test<any> => {
+  setLabel(test, label);
+  return test;
+};
+
+interface Options {
+  hourCycle: (typeof hourCycles)[number];
+  dateStyle: DateStyle;
+  timeStyle: TimeStyle;
+  insertFinalNewLine: boolean;
+  local: string;
+  timeZone: string;
+  date: Date;
+  outputAsEpoch: boolean;
+  outputAsEpochMS: boolean;
+  outputAsJSON: boolean;
+  outputAsUTC: boolean;
+  outputAsSheet: boolean;
+  stdinReadable: boolean;
+  showHelp: boolean;
+  template: string;
+  crontab: string;
+}
+
+const isArgumentTransformAt =
+  (field: string, transform: (v: string) => unknown): Handler<any> => (o) => {
+    const value = o.argValue ?? o.args[o.index + 1];
+    if (value) {
+      o.nextIndex += 1;
+      o.flags[field] = transform(value);
+    }
+  };
 
 export function makeFlags(args: string[]) {
-  let hourCycle: (typeof hourCycles)[number] = 'none';
-  let dateStyle: DateStyle = 'full';
-  let timeStyle: TimeStyle = 'full';
-  let insertFinalNewLine = true;
-  let local: string | undefined;
-  let timeZone: string | undefined;
-  let date = new Date();
-  let outputAsEpoch = false;
-  let outputAsEpochMS = false;
-  let outputAsJSON = false;
-  let outputAsUTC = false;
-  let stdinReadable = false;
-  let showHelp = false;
-  let template: string | undefined;
-  let crontab: string | undefined;
+  const rules: Rule<Options>[] = [
+    [flag("-"), isBooleanAt("stdinReadable")],
+    [
+      describeLabel(flag("--date", "-d"), "<date>"),
+      isArgumentTransformAt("date", dateParse),
+    ],
+    [
+      describeLabel(flag("--date-style"), `<${dateStyles.join("|")}>`),
+      isArgumentTransformAt("dateStyle", toDateStyleString),
+    ],
+    [
+      describeLabel(flag("--time-style"), `<${timeStyles.join("|")}>`),
+      isArgumentTransformAt("timeStyle", toTimeStyleString),
+    ],
+    [
+      describeLabel(flag("--hour-cycles"), `<${hourCycles.join("|")}>`),
+      isArgumentTransformAt("hourCycle", toHourCycleString),
+    ],
+    [
+      describeLabel(flag("--time-zone", "-tz"), "<time-zone>"),
+      isStringAt("timeZone"),
+    ],
+    [describeLabel(flag("--local", "-l"), "<locale>"), isStringAt("local")],
+    [describeLabel(flag("--template"), "<template>"), isStringAt("template")],
+    [flag("--json", "-j"), isBooleanAt("outputAsJSON")],
+    [flag("--sheet"), isBooleanAt("outputAsSheet")],
+    [flag("--utc"), isBooleanAt("outputAsUTC")],
+    [flag("--epoch"), isBooleanAt("outputAsEpoch")],
+    [flag("--epoch-ms"), isBooleanAt("outputAsEpochMS")],
+    [flag("--help", "-h"), isBooleanAt("showHelp")],
+    [
+      flag("--zero", "-z"),
+      ({ flags }) => Reflect.set(flags, "insertFinalNewLine", false),
+    ],
+  ];
 
-  const transformOptions: Record<string, (nextArgument: () => string | undefined) => void> = {
-    '-': () => { stdinReadable = true; },
-    '--zero': () => { insertFinalNewLine = false; },
-    '--date-style': (nextArgument) => { dateStyle = toDateStyleString(nextArgument()); },
-    '--time-style': (nextArgument) => { timeStyle = toTimeStyleString(nextArgument()); },
-    '--hour-cycles': (nextArgument) => { hourCycle = toHourCycleString(nextArgument()) },
-    '--time-zone': (nextArgument) => { timeZone = nextArgument(); },
-    '--local': (nextArgument) => { local = nextArgument(); },
-    '--template': (nextArgument) => { template = nextArgument(); },
-    '--json': () => { outputAsJSON = true; },
-    '--utc': () => { outputAsUTC = true; },
-    '--epoch': () => { outputAsEpoch = true; },
-    '--epoch-ms': () => { outputAsEpochMS = true; },
-    '--date': (nextArgument) => {
-      const v = nextArgument();
-      if(v) {
-        date = dateParse(v);
-      }
-    },
-    '--help': () => { showHelp = true; },
-    get "-j"() { return this['--json']; },
-    get "-d"() { return this["--date"]; },
-    get "-l"() { return this["--local"]; },
-    get "-tz"() { return this["--time-zone"]; },
-    get "-z"() { return this["--zero"]; },
-    get "-h"() { return this["--help"]; },
-  };
+  const {
+    hourCycle = "none",
+    dateStyle = "full",
+    timeStyle = "full",
+    insertFinalNewLine = true,
+    date = new Date(),
+    outputAsEpoch = false,
+    outputAsEpochMS = false,
+    outputAsJSON = false,
+    outputAsUTC = false,
+    outputAsSheet = false,
+    stdinReadable = false,
+    showHelp = false,
+    local,
+    timeZone,
+    template,
+    crontab,
+  } = flags<Options>(args, {}, rules);
 
-  const optionsLabels: Record<string, undefined | { label?: string; }> = {
-    '--date-style': { label: `<${dateStyles.join('|')}>` },
-    '--time-style': { label: `<${timeStyles.join('|')}>` },
-    '--hour-cycles': { label: `<${hourCycles.join('|')}>` },
-    '--local': { label: `<locale>` },
-    '--date': { label: `<date>` },
-    '--template': { label: `<template>` },
-    '--time-zone': { label: `<time-zone>` },
-    get "-j"() { return this['--json']; },
-    get "-d"() { return this["--date"]; },
-    get "-l"() { return this["--local"]; },
-    get "-tz"() { return this["--time-zone"]; },
-    get "-z"() { return this["--zero"]; },
-    get "-h"() { return this["--help"]; },
-  };
+  const {
+    transformOptions,
+    optionsLabels,
+  } = rules.reduce((acc, rule) => {
+    const [test] = rule;
 
-  const parseCrontab = (str: string) => {
-    const res = /^((?<predefined>@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(?<every>@every ((?<every_value>\d+)(?<every_value_sign>ns|us|µs|ms|s|m|h))+)|(?<cron>(?<cron_minute>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_hour>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_day_month>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_month>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*)) (?<cron_day_week>((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*))))$/.exec(str);
+    const withLabel = getLabel(test);
 
-    if(!res) return null;
+    for (const name of test.names ?? []) {
+      Reflect.set(acc.transformOptions, name, null);
+      Reflect.set(acc.optionsLabels, name, { label: withLabel });
+    }
 
-    if(res.groups?.predefined)
-      return {
-        predefined: res.groups.predefined
-      };
-  };
-
-  for(let argsCursor = args[Symbol.iterator](), { value: arg, done } = argsCursor.next();!done;{ value: arg, done } = argsCursor.next()) {
-    const next = (): string | undefined => argsCursor.next().value;
-    if(typeof arg === "string" && arg in transformOptions) { transformOptions[arg](next); }
-  }
+    return acc;
+  }, {
+    transformOptions: {} as Record<string, null>,
+    optionsLabels: {} as Record<string, { label?: string } | undefined>,
+  });
 
   return {
     hourCycle,
@@ -99,6 +146,7 @@ export function makeFlags(args: string[]) {
     outputAsEpochMS,
     outputAsJSON,
     outputAsUTC,
+    outputAsSheet,
     stdinReadable,
     showHelp,
     template,
