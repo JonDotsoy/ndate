@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.3...morgan-v0.5.0) (2023-12-22)
+
+
+### Features
+
+* add ast parse to cron unix syntax ([f8abf7c](https://github.com/JonDotsoy/ndate/commit/f8abf7c353524c53b8340a3fc155e2510a69286a))
+* cron update test cases ([78c5cb0](https://github.com/JonDotsoy/ndate/commit/78c5cb0af6efa644357952c3ea763cea77c8f338))
+* upgrade names ([14a0eae](https://github.com/JonDotsoy/ndate/commit/14a0eae71e4b4e0a98fefb0c129e1552c4828322))
+
 ## [0.4.3](https://github.com/JonDotsoy/ndate/compare/morgan-v0.4.2...morgan-v0.4.3) (2023-10-30)
 
 
