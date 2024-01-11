@@ -1,4 +1,4 @@
-# ndate script
+# ndate
 
 Date format to console.
 
