@@ -197,16 +197,16 @@ Deno.test("bin: fails with an invalid date", async () => {
   assertStringIncludes(stderr, "no valid");
 });
 
-Deno.test("bin: unknown argument prints only the message", async () => {
+Deno.test("bin: unexpected argument prints only the message", async () => {
   const { code, stdout, stderr } = await ndate(["--no-valid-flag"]);
   assertEquals(code, 1);
   assertEquals(stdout, "");
-  assertEquals(stderr, "Unknown argument: --no-valid-flag\n");
+  assertEquals(stderr, "Unexpected argument: --no-valid-flag\n");
 });
 
 Deno.test("bin: --verbose prints the stack trace of the error", async () => {
   const { code, stderr } = await ndate(["--no-valid-flag", "--verbose"]);
   assertEquals(code, 1);
-  assertStringIncludes(stderr, "Unknown argument: --no-valid-flag");
+  assertStringIncludes(stderr, "Unexpected argument: --no-valid-flag");
   assertStringIncludes(stderr, "    at ");
 });
