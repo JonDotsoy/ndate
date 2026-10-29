@@ -9,7 +9,7 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
              [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
              [--instant] [--zoned-date-time] [--plain-date-time] [--plain-date] [--plain-time]
              [--plain-year-month] [--plain-month-day] [--help] [-h] [--version] [-v]
-             [--zero] [-z]
+             [--zero] [-z] [--verbose]
 
 Run `ndate --help` to see every flag and template property.
 ```
@@ -88,6 +88,7 @@ ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
   -h, --help                  Show this help.
   -v, --version               Show the ndate version.
   -z, --zero                  Do not print the final new line.
+  --verbose                   Show the stack trace of errors.
 ```
 
 ## Formatting a date

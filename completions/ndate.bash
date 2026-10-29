@@ -55,7 +55,8 @@ _ndate() {
     --plain-month-day
     --help -h
     --version -v
-    --zero -z"
+    --zero -z
+    --verbose"
 
   case "$prev" in
     --date | -d)
