@@ -43,6 +43,38 @@ ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 20233014203059
 ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
 ```
 
+## Formatting a date
+
+`ndate` reads the date from `-d`/`--date` (any value accepted by `new Date()`), from stdin with `-`, or uses the current date. Then pick how to print it:
+
+**1. Locale format.** Set the language with `-l`/`--local`, the time zone with `-tz`/`--time-zone`, and adjust the style with `--date-style`, `--time-style` (`full|long|medium|short|none`) and `--hour-cycles` (`h11|h12|h23|h24`).
+
+```shell
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l en-US                                     # Monday, August 7, 2023 at 11:38:58 PM Chile Standard Time
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l en-US --date-style short --time-style short # 8/7/23, 11:38 PM
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l en-US --date-style medium --time-style none # Aug 7, 2023
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago --date-style none --time-style short --hour-cycles h23 # 23:38
+```
+
+**2. Fixed formats.** `--json`, `--utc`, `--epoch`, `--epoch-ms`, `--sheet` and the Temporal formats below.
+
+```shell
+ndate -d 2023-08-08T03:38:58Z --json  # 2023-08-08T03:38:58.000Z
+ndate -d 2023-08-08T03:38:58Z --epoch # 1691465938
+echo 2023-08-08T03:38:58Z | ndate - --utc # Tue, 08 Aug 2023 03:38:58 GMT
+```
+
+**3. Templates.** `--template` replaces each `{{property}}` (see [Options to `--template`](#options-to---template)) and accepts transforms with `{{property:transform}}`: `json`, `sub:<start>:<end>`, `padStart:<length>:<fill>` and `padEnd:<length>:<fill>`. Run `ndate -h` to list every property.
+
+```shell
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago --template '{{YYYY}}-{{MM}}-{{DD}} {{hh}}:{{mm}}:{{ss}}' # 2023-08-07 23:38:58
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago --template '{{DD}}/{{MM}}/{{YYYY}}'                      # 07/08/2023
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l en-US --template '{{local_weekday}}, {{local_day}} {{local_month}}' # Monday, 7 August
+ndate -d 2023-08-08T03:38:58Z -tz America/Santiago --template '{{month:padStart:2:0}}'                      # 08
+```
+
+Add `-z` to print without the final new line.
+
 Formats from the [Temporal](https://tc39.es/proposal-temporal/docs/) API (same output as each type's `toString()`):
 
 ```shell
