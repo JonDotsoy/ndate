@@ -45,8 +45,14 @@ jobs:
             exit 1
           fi
           printf '%s' "$next" > version
+          sed -i "s/^export const version = .*/export const version = \"${next}\";/" lib/version.ts
           echo "Releasing ${current} -> ${next}"
           echo "tag=${next}" >> "$GITHUB_OUTPUT"
+
+      - name: Check --version
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: test "$(deno run --allow-env=TZ,LANG ndate.ts --version)" = "$TAG"
 
       - name: Commit and tag
         env:

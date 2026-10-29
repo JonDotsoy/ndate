@@ -61,6 +61,8 @@ snapshot[`show help 1`] = `
 " +
   "  -h, --help                  Show this help.
 " +
+  "  -v, --version               Show the ndate version.
+" +
   "  -z, --zero                  Do not print the final new line.
 " +
   "
