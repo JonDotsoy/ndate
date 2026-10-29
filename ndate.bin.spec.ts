@@ -61,6 +61,10 @@ Deno.test("bin: show help", async () => {
   assert(stdout.startsWith("Usage: ndate "));
   assertStringIncludes(stdout, "[--json]");
   assertStringIncludes(stdout, "[--template <template>]");
+  assertStringIncludes(stdout, "Template properties: {{epoch}}");
+  assertStringIncludes(stdout, "{{utc_full_year}}");
+  assertStringIncludes(stdout, "{{local_weekday}}");
+  assertStringIncludes(stdout, "Template transforms: json");
 });
 
 Deno.test("bin: inserts a final new line by default", async () => {

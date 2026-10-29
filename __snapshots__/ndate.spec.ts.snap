@@ -10,6 +10,32 @@ snapshot[`show help 1`] = `
   "             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
 " +
   "             [--help] [-h] [--zero] [-z]
+" +
+  "
+" +
+  "Template properties: {{epoch}} {{epoch_ms}} {{json}} {{iso}} {{iso8601}} {{utc}} {{rfc7231}}
+" +
+  "                     {{local}} {{time}} {{YYYY}} {{MM}} {{DD}} {{hh}} {{mm}} {{ss}}
+" +
+  "                     {{ms}} {{full_year}} {{month}} {{date}} {{day}} {{hours}} {{minutes}}
+" +
+  "                     {{seconds}} {{milliseconds}} {{timezone_offset}} {{utc_full_year}}
+" +
+  "                     {{utc_month}} {{utc_date}} {{utc_day}} {{utc_hours}} {{utc_minutes}}
+" +
+  "                     {{utc_seconds}} {{utc_milliseconds}} {{local_day}} {{local_dayPeriod}}
+" +
+  "                     {{local_era}} {{local_hour}} {{local_literal}} {{local_minute}}
+" +
+  "                     {{local_month}} {{local_second}} {{local_timeZoneName}} {{local_weekday}}
+" +
+  "                     {{local_year}}
+" +
+  "
+" +
+  "Template transforms: json sub:<start>:<end> padStart:<length>:<fill> padEnd:<length>:<fill>
+" +
+  "                     Syntax {{<property>:<transform>}}. Ex. {{month:padStart:2:0}}
 "
 `;
 

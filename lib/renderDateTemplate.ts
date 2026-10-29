@@ -1,4 +1,8 @@
-export function renderDateTemplate(template: string, date: Date, locales?: string, options?: Intl.DateTimeFormatOptions) {
+export const localPartTypes = ["day", "dayPeriod", "era", "hour", "literal", "minute", "month", "second", "timeZoneName", "weekday", "year"] as const;
+
+export const templateTransformLabels = ["json", "sub:<start>:<end>", "padStart:<length>:<fill>", "padEnd:<length>:<fill>"] as const;
+
+export const templateValues = (date: Date, locales?: string, options?: Intl.DateTimeFormatOptions): Record<string, any> => {
   const localeString = date.toLocaleString(locales, options);
   const parts = new Intl.DateTimeFormat(locales, options).formatToParts(date).map(({ type, value }) => [`local_${type}`, value] as const);
 
@@ -8,7 +12,7 @@ export function renderDateTemplate(template: string, date: Date, locales?: strin
   const isoString = date.toISOString();
   const utcString = date.toUTCString();
 
-  const values: Record<string, any> = Object.fromEntries([
+  return Object.fromEntries([
     [`epoch`, epoch],
     [`epoch_ms`, epochMS],
     [`json`, isoString],
@@ -49,6 +53,14 @@ export function renderDateTemplate(template: string, date: Date, locales?: strin
     ["utc_milliseconds", date.getUTCMilliseconds()],
     ...parts,
   ]);
+};
+
+/** Template keywords without the `local_*` parts, which depend on the locale */
+export const templateKeywords = Object.keys(templateValues(new Date(0)))
+  .filter((keyword) => !keyword.startsWith("local_"));
+
+export function renderDateTemplate(template: string, date: Date, locales?: string, options?: Intl.DateTimeFormatOptions) {
+  const values = templateValues(date, locales, options);
 
   const transforms: Record<string, (value: string, options?: string) => string> = {
     json: value => JSON.stringify(value),

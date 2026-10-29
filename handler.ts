@@ -4,7 +4,12 @@ import {
   toHourCycle,
   toTimeStyle,
 } from "./lib/common.ts";
-import { renderDateTemplate } from "./lib/renderDateTemplate.ts";
+import {
+  localPartTypes,
+  renderDateTemplate,
+  templateKeywords,
+  templateTransformLabels,
+} from "./lib/renderDateTemplate.ts";
 import { makeFlags } from "./makeFlags.ts";
 
 const renderSheet = (date: Date) => {
@@ -35,15 +40,31 @@ const makeHelpDialog = function* (
       return label ? `[${item} ${label}]` : `[${item}]`;
     });
 
-  const textUsage = `Usage: ndate`;
+  yield* wrapLines(`Usage: ndate`, items);
+  yield new TextEncoder().encode("\n");
+  yield* wrapLines(
+    `Template properties:`,
+    [
+      ...templateKeywords,
+      ...localPartTypes.map((part) => `local_${part}`),
+    ].map((keyword) => `{{${keyword}}}`),
+  );
+  yield new TextEncoder().encode("\n");
+  yield* wrapLines(
+    `Template transforms:`,
+    [...templateTransformLabels],
+  );
+  yield new TextEncoder().encode(
+    `                     Syntax {{<property>:<transform>}}. Ex. {{month:padStart:2:0}}\n`,
+  );
+};
 
+const wrapLines = function* (title: string, items: string[]) {
   const lines: string[] = [];
   let currentLine: string | undefined;
   for (const item of items) {
     if (!currentLine) {
-      currentLine = lines.length
-        ? `${" ".repeat(textUsage.length)}`
-        : `${textUsage}`;
+      currentLine = lines.length ? `${" ".repeat(title.length)}` : `${title}`;
     }
 
     currentLine = `${currentLine} ${item}`;
