@@ -44,6 +44,13 @@ interface Options {
   outputAsJSON: boolean;
   outputAsUTC: boolean;
   outputAsSheet: boolean;
+  outputAsInstant: boolean;
+  outputAsZonedDateTime: boolean;
+  outputAsPlainDateTime: boolean;
+  outputAsPlainDate: boolean;
+  outputAsPlainTime: boolean;
+  outputAsPlainYearMonth: boolean;
+  outputAsPlainMonthDay: boolean;
   stdinReadable: boolean;
   showHelp: boolean;
   template: string;
@@ -89,6 +96,13 @@ export function makeFlags(args: string[]) {
     [flag("--utc"), isBooleanAt("outputAsUTC")],
     [flag("--epoch"), isBooleanAt("outputAsEpoch")],
     [flag("--epoch-ms"), isBooleanAt("outputAsEpochMS")],
+    [flag("--instant"), isBooleanAt("outputAsInstant")],
+    [flag("--zoned-date-time"), isBooleanAt("outputAsZonedDateTime")],
+    [flag("--plain-date-time"), isBooleanAt("outputAsPlainDateTime")],
+    [flag("--plain-date"), isBooleanAt("outputAsPlainDate")],
+    [flag("--plain-time"), isBooleanAt("outputAsPlainTime")],
+    [flag("--plain-year-month"), isBooleanAt("outputAsPlainYearMonth")],
+    [flag("--plain-month-day"), isBooleanAt("outputAsPlainMonthDay")],
     [flag("--help", "-h"), isBooleanAt("showHelp")],
     [
       flag("--zero", "-z"),
@@ -107,6 +121,13 @@ export function makeFlags(args: string[]) {
     outputAsJSON = false,
     outputAsUTC = false,
     outputAsSheet = false,
+    outputAsInstant = false,
+    outputAsZonedDateTime = false,
+    outputAsPlainDateTime = false,
+    outputAsPlainDate = false,
+    outputAsPlainTime = false,
+    outputAsPlainYearMonth = false,
+    outputAsPlainMonthDay = false,
     stdinReadable = false,
     showHelp = false,
     local,
@@ -147,6 +168,13 @@ export function makeFlags(args: string[]) {
     outputAsJSON,
     outputAsUTC,
     outputAsSheet,
+    outputAsInstant,
+    outputAsZonedDateTime,
+    outputAsPlainDateTime,
+    outputAsPlainDate,
+    outputAsPlainTime,
+    outputAsPlainYearMonth,
+    outputAsPlainMonthDay,
     stdinReadable,
     showHelp,
     template,

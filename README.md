@@ -7,7 +7,8 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
              [--time-style <full|long|medium|short|none>] [--hour-cycles <h11|h12|h23|h24|none>]
              [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
              [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
-             [--help] [-h] [--zero] [-z]
+             [--instant] [--zoned-date-time] [--plain-date-time] [--plain-date] [--plain-time]
+             [--plain-year-month] [--plain-month-day] [--help] [-h] [--zero] [-z]
 ```
 
 Install with [homebrew](https://brew.sh/):
@@ -42,6 +43,18 @@ ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 20233014203059
 ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
 ```
 
+Formats from the [Temporal](https://tc39.es/proposal-temporal/docs/) API (same output as each type's `toString()`):
+
+```shell
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --instant          # 2023-08-08T03:38:58.57Z
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --zoned-date-time  # 2023-08-07T23:38:58.57-04:00[America/Santiago]
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --plain-date-time  # 2023-08-07T23:38:58.57
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --plain-date       # 2023-08-07
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --plain-time       # 23:38:58.57
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --plain-year-month # 2023-08
+ndate -d 2023-08-08T03:38:58.570Z -tz America/Santiago --plain-month-day  # 08-07
+```
+
 ## Options to `--template`
 
 - `{{epoch}}`: Date on [unix time](https://en.wikipedia.org/wiki/Unix_time) (It measures time by the number of **seconds** that have elapsed since 00:00:00 UTC on 1 January 1970)
@@ -52,6 +65,13 @@ ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
 - `{{utc}}`: Date in the [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-7.1.1.1) format (Alias of `{{rfc7231}}`)
 - `{{rfc7231}}`: Date in the [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-7.1.1.1) format
 - `{{time}}`: Result of `date.getTime()`
+- `{{instant}}`: Same as `--instant`
+- `{{zoned_date_time}}`: Same as `--zoned-date-time`
+- `{{plain_date_time}}`: Same as `--plain-date-time`
+- `{{plain_date}}`: Same as `--plain-date`
+- `{{plain_time}}`: Same as `--plain-time`
+- `{{plain_year_month}}`: Same as `--plain-year-month`
+- `{{plain_month_day}}`: Same as `--plain-month-day`
 - `{{full_year}}`: Result of `date.getFullYear()`
 - `{{utc_full_year}}`: Result of `date.getUTCFullYear()`
 - `{{month}}`: Result of `date.getMonth()`

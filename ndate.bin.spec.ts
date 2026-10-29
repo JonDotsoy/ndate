@@ -91,6 +91,16 @@ Deno.test("bin: output formats", async (t) => {
     ["--epoch", "1691465938"],
     ["--epoch-ms", "1691465938570"],
     ["--sheet", "=DATE(2023;8;7)+TIME(23;38;58)"],
+    ["--instant", "2023-08-08T03:38:58.57Z"],
+    [
+      "--zoned-date-time",
+      "2023-08-07T23:38:58.57-04:00[America/Santiago]",
+    ],
+    ["--plain-date-time", "2023-08-07T23:38:58.57"],
+    ["--plain-date", "2023-08-07"],
+    ["--plain-time", "23:38:58.57"],
+    ["--plain-year-month", "2023-08"],
+    ["--plain-month-day", "08-07"],
   ];
   for (const [flag, expected] of cases) {
     await t.step(flag, async () => {
@@ -110,6 +120,33 @@ Deno.test("bin: format template", async () => {
   ]);
   assertEquals(code, 0);
   assertEquals(stdout, "2023-08-07 1691465938 0008");
+});
+
+Deno.test("bin: zoned date time with a half hour offset", async () => {
+  const { code, stdout } = await ndate([
+    "-z",
+    "-d",
+    "2023-01-05T07:00:00Z",
+    "-tz",
+    "Asia/Kolkata",
+    "--zoned-date-time",
+  ]);
+  assertEquals(code, 0);
+  assertEquals(stdout, "2023-01-05T12:30:00+05:30[Asia/Kolkata]");
+});
+
+Deno.test("bin: temporal properties in template", async () => {
+  const { code, stdout } = await ndate([
+    "-z",
+    ...fixedDate,
+    "--template",
+    "{{plain_date}} {{plain_time}} {{zoned_date_time}}",
+  ]);
+  assertEquals(code, 0);
+  assertEquals(
+    stdout,
+    "2023-08-07 23:38:58.57 2023-08-07T23:38:58.57-04:00[America/Santiago]",
+  );
 });
 
 Deno.test("bin: read date from stdin", async () => {

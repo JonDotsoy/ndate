@@ -9,27 +9,31 @@ snapshot[`show help 1`] = `
 " +
   "             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
 " +
-  "             [--help] [-h] [--zero] [-z]
+  "             [--instant] [--zoned-date-time] [--plain-date-time] [--plain-date] [--plain-time]
+" +
+  "             [--plain-year-month] [--plain-month-day] [--help] [-h] [--zero] [-z]
 " +
   "
 " +
   "Template properties: {{epoch}} {{epoch_ms}} {{json}} {{iso}} {{iso8601}} {{utc}} {{rfc7231}}
 " +
-  "                     {{local}} {{time}} {{YYYY}} {{MM}} {{DD}} {{hh}} {{mm}} {{ss}}
+  "                     {{local}} {{time}} {{instant}} {{zoned_date_time}} {{plain_date_time}}
 " +
-  "                     {{ms}} {{full_year}} {{month}} {{date}} {{day}} {{hours}} {{minutes}}
+  "                     {{plain_date}} {{plain_time}} {{plain_year_month}} {{plain_month_day}}
 " +
-  "                     {{seconds}} {{milliseconds}} {{timezone_offset}} {{utc_full_year}}
+  "                     {{YYYY}} {{MM}} {{DD}} {{hh}} {{mm}} {{ss}} {{ms}} {{full_year}}
 " +
-  "                     {{utc_month}} {{utc_date}} {{utc_day}} {{utc_hours}} {{utc_minutes}}
+  "                     {{month}} {{date}} {{day}} {{hours}} {{minutes}} {{seconds}}
 " +
-  "                     {{utc_seconds}} {{utc_milliseconds}} {{local_day}} {{local_dayPeriod}}
+  "                     {{milliseconds}} {{timezone_offset}} {{utc_full_year}} {{utc_month}}
 " +
-  "                     {{local_era}} {{local_hour}} {{local_literal}} {{local_minute}}
+  "                     {{utc_date}} {{utc_day}} {{utc_hours}} {{utc_minutes}} {{utc_seconds}}
 " +
-  "                     {{local_month}} {{local_second}} {{local_timeZoneName}} {{local_weekday}}
+  "                     {{utc_milliseconds}} {{local_day}} {{local_dayPeriod}} {{local_era}}
 " +
-  "                     {{local_year}}
+  "                     {{local_hour}} {{local_literal}} {{local_minute}} {{local_month}}
+" +
+  "                     {{local_second}} {{local_timeZoneName}} {{local_weekday}} {{local_year}}
 " +
   "
 " +

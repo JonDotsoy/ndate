@@ -10,6 +10,15 @@ import {
   templateKeywords,
   templateTransformLabels,
 } from "./lib/renderDateTemplate.ts";
+import {
+  toInstantString,
+  toPlainDateString,
+  toPlainDateTimeString,
+  toPlainMonthDayString,
+  toPlainTimeString,
+  toPlainYearMonthString,
+  toZonedDateTimeString,
+} from "./lib/temporal.ts";
 import { makeFlags } from "./makeFlags.ts";
 
 const renderSheet = (date: Date) => {
@@ -102,6 +111,13 @@ export const handler = async function* (
     template,
     transformOptions,
     outputAsSheet,
+    outputAsInstant,
+    outputAsZonedDateTime,
+    outputAsPlainDateTime,
+    outputAsPlainDate,
+    outputAsPlainTime,
+    outputAsPlainYearMonth,
+    outputAsPlainMonthDay,
     optionsLabels,
   } = makeFlags(args);
 
@@ -136,6 +152,13 @@ export const handler = async function* (
     if (outputAsJSON) return date.toJSON();
     if (outputAsUTC) return date.toUTCString();
     if (outputAsSheet) return renderSheet(date);
+    if (outputAsInstant) return toInstantString(date);
+    if (outputAsZonedDateTime) return toZonedDateTimeString(date, timeZone);
+    if (outputAsPlainDateTime) return toPlainDateTimeString(date, timeZone);
+    if (outputAsPlainDate) return toPlainDateString(date, timeZone);
+    if (outputAsPlainTime) return toPlainTimeString(date, timeZone);
+    if (outputAsPlainYearMonth) return toPlainYearMonthString(date, timeZone);
+    if (outputAsPlainMonthDay) return toPlainMonthDayString(date, timeZone);
     return date.toLocaleString(local, {
       dateStyle: toDateStyle(dateStyle),
       timeStyle: toTimeStyle(timeStyle),

@@ -1,3 +1,5 @@
+import { toInstantString, toPlainDateString, toPlainDateTimeString, toPlainMonthDayString, toPlainTimeString, toPlainYearMonthString, toZonedDateTimeString } from "./temporal.ts";
+
 export const localPartTypes = ["day", "dayPeriod", "era", "hour", "literal", "minute", "month", "second", "timeZoneName", "weekday", "year"] as const;
 
 export const templateTransformLabels = ["json", "sub:<start>:<end>", "padStart:<length>:<fill>", "padEnd:<length>:<fill>"] as const;
@@ -22,6 +24,13 @@ export const templateValues = (date: Date, locales?: string, options?: Intl.Date
     [`rfc7231`, utcString],
     [`local`, localeString],
     ["time", date.getTime()],
+    ["instant", toInstantString(date)],
+    ["zoned_date_time", toZonedDateTimeString(date, options?.timeZone)],
+    ["plain_date_time", toPlainDateTimeString(date, options?.timeZone)],
+    ["plain_date", toPlainDateString(date, options?.timeZone)],
+    ["plain_time", toPlainTimeString(date, options?.timeZone)],
+    ["plain_year_month", toPlainYearMonthString(date, options?.timeZone)],
+    ["plain_month_day", toPlainMonthDayString(date, options?.timeZone)],
 
     ["YYYY", date.getFullYear().toString().padStart(4, `0`)],
     ["MM", (date.getMonth() + 1).toString().padStart(2, `0`)],
