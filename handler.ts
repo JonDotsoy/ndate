@@ -112,6 +112,7 @@ const makeLongHelpDialog = function* (
     ["ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l es-CL", ""],
     ["ndate --template '{{YYYY}}-{{MM}}-{{DD}} {{hh}}:{{mm}}'", ""],
     ["ndate --template '{{month:padStart:2:0}}'", ""],
+    ["ndate +'{{YYYY}}-{{MM}}-{{DD}}'", ""],
     ["echo 2023-08-08T03:38:58Z | ndate - --epoch", ""],
   ]);
 };

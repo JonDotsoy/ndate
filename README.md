@@ -53,6 +53,7 @@ ndate -j # 2022-10-12T05:40:33.246Z
 ndate --epoch # 1689255846
 ndate --epoch-ms # 1689255823663
 ndate --epoch-ms -z # 1689255823663%
+ndate +'{{YYYY}}-{{MM}}-{{DD}}' # same as --template, like `date +FORMAT`
 ndate --template '{{utc_full_year}}-{{utc_month:padStart:2:0}}-{{utc_date:padStart:2:0}}' # 2023-06-13
 ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 202330142030590781
 ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
