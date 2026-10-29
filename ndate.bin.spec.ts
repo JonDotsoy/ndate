@@ -55,16 +55,35 @@ const fixedDate = [
   "America/Santiago",
 ];
 
-Deno.test("bin: show help", async () => {
-  const { code, stdout } = await ndate(["-h"]);
+Deno.test("bin: show short help without arguments", async () => {
+  const { code, stdout } = await ndate([]);
   assertEquals(code, 0);
   assert(stdout.startsWith("Usage: ndate "));
-  assertStringIncludes(stdout, "[--json]");
   assertStringIncludes(stdout, "[--template <template>]");
-  assertStringIncludes(stdout, "Template properties: {{epoch}}");
-  assertStringIncludes(stdout, "{{utc_full_year}}");
-  assertStringIncludes(stdout, "{{local_weekday}}");
-  assertStringIncludes(stdout, "Template transforms: json");
+  assertStringIncludes(stdout, "Run `ndate --help`");
+});
+
+Deno.test("bin: show long help", async (t) => {
+  for (const flag of ["-h", "--help"]) {
+    await t.step(flag, async () => {
+      const { code, stdout } = await ndate([flag]);
+      assertEquals(code, 0);
+      assertStringIncludes(stdout, "Usage: ndate [options]");
+      assertStringIncludes(stdout, "  -j, --json ");
+      assertStringIncludes(stdout, "  --plain-date ");
+      assertStringIncludes(stdout, "\n  {{epoch}} ");
+      assertStringIncludes(stdout, "\n  {{utc_full_year}} ");
+      assertStringIncludes(stdout, "\n  {{local_weekday}} ");
+      assertStringIncludes(stdout, "\n  padStart:<length>:<fill> ");
+    });
+  }
+});
+
+Deno.test("bin: -d now uses the current date", async () => {
+  const before = Date.now();
+  const { code, stdout } = await ndate(["-z", "-d", "now", "--epoch-ms"]);
+  assertEquals(code, 0);
+  assert(Number(stdout) >= before && Number(stdout) <= Date.now());
 });
 
 Deno.test("bin: inserts a final new line by default", async () => {

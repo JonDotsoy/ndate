@@ -2,7 +2,55 @@ import { toInstantString, toPlainDateString, toPlainDateTimeString, toPlainMonth
 
 export const localPartTypes = ["day", "dayPeriod", "era", "hour", "literal", "minute", "month", "second", "timeZoneName", "weekday", "year"] as const;
 
-export const templateTransformLabels = ["json", "sub:<start>:<end>", "padStart:<length>:<fill>", "padEnd:<length>:<fill>"] as const;
+export const templateTransformDescriptions: [string, string][] = [
+  ["json", "Quote the value as a JSON string."],
+  ["sub:<start>:<end>", "Substring from <start> to <end>."],
+  ["padStart:<length>:<fill>", "Pad the start up to <length> with <fill>."],
+  ["padEnd:<length>:<fill>", "Pad the end up to <length> with <fill>."],
+];
+
+export const templateKeywordDescriptions: Record<string, string> = {
+  epoch: "Unix time in seconds.",
+  epoch_ms: "Unix time in milliseconds.",
+  json: "ISO 8601 (alias of iso8601).",
+  iso: "ISO 8601 (alias of iso8601).",
+  iso8601: "ISO 8601, e.g. 2023-08-08T03:38:58.570Z.",
+  utc: "RFC 7231 (alias of rfc7231).",
+  rfc7231: "RFC 7231, e.g. Tue, 08 Aug 2023 03:38:58 GMT.",
+  local: "Locale format, same as the default output.",
+  time: "Result of date.getTime().",
+  instant: "Same as --instant.",
+  zoned_date_time: "Same as --zoned-date-time.",
+  plain_date_time: "Same as --plain-date-time.",
+  plain_date: "Same as --plain-date.",
+  plain_time: "Same as --plain-time.",
+  plain_year_month: "Same as --plain-year-month.",
+  plain_month_day: "Same as --plain-month-day.",
+  YYYY: "Year, 4 digits.",
+  MM: "Month, 2 digits.",
+  DD: "Day of month, 2 digits.",
+  hh: "Hours, 2 digits (00-23).",
+  mm: "Minutes, 2 digits.",
+  ss: "Seconds, 2 digits.",
+  ms: "Milliseconds, 3 digits.",
+  full_year: "Result of date.getFullYear().",
+  month: "Month, 1-12.",
+  date: "Result of date.getDate().",
+  day: "Day of week, 0 (Sunday) to 6.",
+  hours: "Result of date.getHours().",
+  minutes: "Result of date.getMinutes().",
+  seconds: "Result of date.getSeconds().",
+  milliseconds: "Result of date.getMilliseconds().",
+  timezone_offset: "Result of date.getTimezoneOffset().",
+  utc_full_year: "Result of date.getUTCFullYear().",
+  utc_month: "UTC month, 1-12.",
+  utc_date: "Result of date.getUTCDate().",
+  utc_day: "Result of date.getUTCDay().",
+  utc_hours: "Result of date.getUTCHours().",
+  utc_minutes: "Result of date.getUTCMinutes().",
+  utc_seconds: "Result of date.getUTCSeconds().",
+  utc_milliseconds: "Result of date.getUTCMilliseconds().",
+};
 
 export const templateValues = (date: Date, locales?: string, options?: Intl.DateTimeFormatOptions): Record<string, any> => {
   const localeString = date.toLocaleString(locales, options);

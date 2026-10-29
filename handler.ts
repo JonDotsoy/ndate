@@ -7,8 +7,9 @@ import {
 import {
   localPartTypes,
   renderDateTemplate,
+  templateKeywordDescriptions,
   templateKeywords,
-  templateTransformLabels,
+  templateTransformDescriptions,
 } from "./lib/renderDateTemplate.ts";
 import {
   toInstantString,
@@ -50,22 +51,68 @@ const makeHelpDialog = function* (
     });
 
   yield* wrapLines(`Usage: ndate`, items);
-  yield new TextEncoder().encode("\n");
-  yield* wrapLines(
-    `Template properties:`,
-    [
-      ...templateKeywords,
-      ...localPartTypes.map((part) => `local_${part}`),
-    ].map((keyword) => `{{${keyword}}}`),
-  );
-  yield new TextEncoder().encode("\n");
-  yield* wrapLines(
-    `Template transforms:`,
-    [...templateTransformLabels],
-  );
   yield new TextEncoder().encode(
-    `                     Syntax {{<property>:<transform>}}. Ex. {{month:padStart:2:0}}\n`,
+    "\nRun `ndate --help` to see every flag and template property.\n",
   );
+};
+
+const makeLongHelpDialog = function* (
+  optionsHelp: { names: string[]; label?: string; description?: string }[],
+) {
+  const section = function* (title: string, rows: [string, string][]) {
+    const maxWidth = 26;
+    const width = Math.min(
+      maxWidth,
+      Math.max(...rows.map(([name]) => name.length)),
+    ) + 2;
+    yield new TextEncoder().encode(`\n${title}\n`);
+    for (const [name, description] of rows) {
+      const line = name.length > maxWidth
+        ? `  ${name}\n  ${" ".repeat(width)}${description}`
+        : `  ${name.padEnd(width)}${description}`;
+      yield new TextEncoder().encode(`${line.trimEnd()}\n`);
+    }
+  };
+
+  yield new TextEncoder().encode(
+    "ndate - Date format to console.\n\nUsage: ndate [options]\n",
+  );
+
+  yield* section(
+    "Options:",
+    optionsHelp.map(({ names, label, description = "" }) => [
+      [...names].sort((a, b) => a.length - b.length).join(", ") +
+      (label ? ` ${label}` : ""),
+      description,
+    ]),
+  );
+
+  yield* section(
+    "Template properties (--template '{{<property>}}'):",
+    [
+      ...templateKeywords.map((keyword): [string, string] => [
+        `{{${keyword}}}`,
+        templateKeywordDescriptions[keyword] ?? "",
+      ]),
+      ...localPartTypes.map((part): [string, string] => [
+        `{{local_${part}}}`,
+        `"${part}" part of Intl.DateTimeFormat.`,
+      ]),
+    ],
+  );
+
+  yield* section(
+    "Template transforms (--template '{{<property>:<transform>}}'):",
+    templateTransformDescriptions,
+  );
+
+  yield* section("Examples:", [
+    ["ndate -d now", ""],
+    ["ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l es-CL", ""],
+    ["ndate --template '{{YYYY}}-{{MM}}-{{DD}} {{hh}}:{{mm}}'", ""],
+    ["ndate --template '{{month:padStart:2:0}}'", ""],
+    ["echo 2023-08-08T03:38:58Z | ndate - --epoch", ""],
+  ]);
 };
 
 const wrapLines = function* (title: string, items: string[]) {
@@ -119,9 +166,15 @@ export const handler = async function* (
     outputAsPlainYearMonth,
     outputAsPlainMonthDay,
     optionsLabels,
+    optionsHelp,
   } = makeFlags(args);
 
   if (showHelp) {
+    yield* makeLongHelpDialog(optionsHelp);
+    return;
+  }
+
+  if (!args.length) {
     yield* makeHelpDialog(transformOptions, optionsLabels);
     return;
   }

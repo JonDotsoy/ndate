@@ -9,6 +9,8 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
              [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
              [--instant] [--zoned-date-time] [--plain-date-time] [--plain-date] [--plain-time]
              [--plain-year-month] [--plain-month-day] [--help] [-h] [--zero] [-z]
+
+Run `ndate --help` to see every flag and template property.
 ```
 
 Install with [homebrew](https://brew.sh/):
@@ -26,13 +28,13 @@ deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.3/ndate.t
 Samples use:
 
 ```shell
-ndate # Tuesday, October 11, 2022 at 5:59:37 PM Chile Summer Time
+ndate -d now # Tuesday, October 11, 2022 at 5:59:37 PM Chile Summer Time
 ndate -d 2023-07-13T06:40 # Thursday, July 13, 2023 at 6:40:00 AM Chile Standard Time
 ndate --local es-CL # martes, 11 de octubre de 2022, 17:59:14 hora de verano de Chile
 ndate --local en-CL # Tuesday, October 11, 2022 at 5:59:37 PM Chile Summer Time
 ndate --time-zone Asia/Tokyo --local en-US # Thursday, July 13, 2023 at 6:46:21 AM Japan Standard Time
 LANG=en-US ndate --time-zone Asia/Tokyo # Thursday, July 13, 2023 at 6:46:21 AM Japan Standard Time
-LANG=en-US TZ=Asia/Tokyo ndate # Thursday, July 13, 2023 at 6:46:21 AM Japan Standard Time
+LANG=en-US TZ=Asia/Tokyo ndate -d now # Thursday, July 13, 2023 at 6:46:21 AM Japan Standard Time
 echo 2022-10-12T05:39:19.678Z | ndate - # Wednesday, October 12, 2022 at 2:39:19 AM Chile Summer Time
 ndate -j # 2022-10-12T05:40:33.246Z
 ndate --epoch # 1689255846
@@ -43,9 +45,40 @@ ndate --template '{{YYYY}}{{MM}}{{DD}}{{HH}}{{MM}}{{SS}}{{MS}}' # 20233014203059
 ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
 ```
 
+## Options
+
+```shell
+  -                           Read the date from stdin.
+  -d, --date <date>           Date to format: now or any value accepted by new Date().
+  --date-style <full|long|medium|short|none>
+                              Date style of the locale format. Default: full.
+  --time-style <full|long|medium|short|none>
+                              Time style of the locale format. Default: full.
+  --hour-cycles <h11|h12|h23|h24|none>
+                              Hour cycle of the locale format, e.g. h23 for 24 hours.
+  -tz, --time-zone <time-zone>
+                              IANA time zone, e.g. America/Santiago. Default: $TZ.
+  -l, --local <locale>        Locale, e.g. es-CL. Default: $LANG.
+  --template <template>       Render the date with a template (see template properties).
+  -j, --json                  Print as ISO 8601, e.g. 2023-08-08T03:38:58.570Z.
+  --sheet                     Print as a spreadsheet formula =DATE()+TIME().
+  --utc                       Print as RFC 7231, e.g. Tue, 08 Aug 2023 03:38:58 GMT.
+  --epoch                     Print as unix time in seconds.
+  --epoch-ms                  Print as unix time in milliseconds.
+  --instant                   Print as Temporal.Instant, e.g. 2023-08-08T03:38:58.57Z.
+  --zoned-date-time           Print as Temporal.ZonedDateTime.
+  --plain-date-time           Print as Temporal.PlainDateTime, e.g. 2023-08-07T23:38:58.57.
+  --plain-date                Print as Temporal.PlainDate, e.g. 2023-08-07.
+  --plain-time                Print as Temporal.PlainTime, e.g. 23:38:58.57.
+  --plain-year-month          Print as Temporal.PlainYearMonth, e.g. 2023-08.
+  --plain-month-day           Print as Temporal.PlainMonthDay, e.g. 08-07.
+  -h, --help                  Show this help.
+  -z, --zero                  Do not print the final new line.
+```
+
 ## Formatting a date
 
-`ndate` reads the date from `-d`/`--date` (any value accepted by `new Date()`), from stdin with `-`, or uses the current date. Then pick how to print it:
+`ndate` reads the date from `-d`/`--date` (any value accepted by `new Date()`), from stdin with `-`, or `-d now` for the current date. Then pick how to print it:
 
 **1. Locale format.** Set the language with `-l`/`--local`, the time zone with `-tz`/`--time-zone`, and adjust the style with `--date-style`, `--time-style` (`full|long|medium|short|none`) and `--hour-cycles` (`h11|h12|h23|h24`).
 

@@ -21,13 +21,21 @@ import {
 } from "npm:@jondotsoy/flags@2.0.2";
 
 const labelSymbol = Symbol("label");
+const descriptionSymbol = Symbol("description");
 
 const setLabel = (obj: object, label: string) =>
   Reflect.set(obj, labelSymbol, label);
 const getLabel = (obj: object) => Reflect.get(obj, labelSymbol);
+const getDescription = (obj: object): string | undefined =>
+  Reflect.get(obj, descriptionSymbol);
 
 const describeLabel = (test: Test<any>, label: string): Test<any> => {
   setLabel(test, label);
+  return test;
+};
+
+const describeHelp = (test: Test<any>, description: string): Test<any> => {
+  Reflect.set(test, descriptionSymbol, description);
   return test;
 };
 
@@ -68,44 +76,143 @@ const isArgumentTransformAt =
 
 export function makeFlags(args: string[]) {
   const rules: Rule<Options>[] = [
-    [flag("-"), isBooleanAt("stdinReadable")],
     [
-      describeLabel(flag("--date", "-d"), "<date>"),
+      describeHelp(flag("-"), "Read the date from stdin."),
+      isBooleanAt("stdinReadable"),
+    ],
+    [
+      describeHelp(
+        describeLabel(flag("--date", "-d"), "<date>"),
+        "Date to format: now or any value accepted by new Date().",
+      ),
       isArgumentTransformAt("date", dateParse),
     ],
     [
-      describeLabel(flag("--date-style"), `<${dateStyles.join("|")}>`),
+      describeHelp(
+        describeLabel(flag("--date-style"), `<${dateStyles.join("|")}>`),
+        "Date style of the locale format. Default: full.",
+      ),
       isArgumentTransformAt("dateStyle", toDateStyleString),
     ],
     [
-      describeLabel(flag("--time-style"), `<${timeStyles.join("|")}>`),
+      describeHelp(
+        describeLabel(flag("--time-style"), `<${timeStyles.join("|")}>`),
+        "Time style of the locale format. Default: full.",
+      ),
       isArgumentTransformAt("timeStyle", toTimeStyleString),
     ],
     [
-      describeLabel(flag("--hour-cycles"), `<${hourCycles.join("|")}>`),
+      describeHelp(
+        describeLabel(flag("--hour-cycles"), `<${hourCycles.join("|")}>`),
+        "Hour cycle of the locale format, e.g. h23 for 24 hours.",
+      ),
       isArgumentTransformAt("hourCycle", toHourCycleString),
     ],
     [
-      describeLabel(flag("--time-zone", "-tz"), "<time-zone>"),
+      describeHelp(
+        describeLabel(flag("--time-zone", "-tz"), "<time-zone>"),
+        "IANA time zone, e.g. America/Santiago. Default: $TZ.",
+      ),
       isStringAt("timeZone"),
     ],
-    [describeLabel(flag("--local", "-l"), "<locale>"), isStringAt("local")],
-    [describeLabel(flag("--template"), "<template>"), isStringAt("template")],
-    [flag("--json", "-j"), isBooleanAt("outputAsJSON")],
-    [flag("--sheet"), isBooleanAt("outputAsSheet")],
-    [flag("--utc"), isBooleanAt("outputAsUTC")],
-    [flag("--epoch"), isBooleanAt("outputAsEpoch")],
-    [flag("--epoch-ms"), isBooleanAt("outputAsEpochMS")],
-    [flag("--instant"), isBooleanAt("outputAsInstant")],
-    [flag("--zoned-date-time"), isBooleanAt("outputAsZonedDateTime")],
-    [flag("--plain-date-time"), isBooleanAt("outputAsPlainDateTime")],
-    [flag("--plain-date"), isBooleanAt("outputAsPlainDate")],
-    [flag("--plain-time"), isBooleanAt("outputAsPlainTime")],
-    [flag("--plain-year-month"), isBooleanAt("outputAsPlainYearMonth")],
-    [flag("--plain-month-day"), isBooleanAt("outputAsPlainMonthDay")],
-    [flag("--help", "-h"), isBooleanAt("showHelp")],
     [
-      flag("--zero", "-z"),
+      describeHelp(
+        describeLabel(flag("--local", "-l"), "<locale>"),
+        "Locale, e.g. es-CL. Default: $LANG.",
+      ),
+      isStringAt("local"),
+    ],
+    [
+      describeHelp(
+        describeLabel(flag("--template"), "<template>"),
+        "Render the date with a template (see template properties).",
+      ),
+      isStringAt("template"),
+    ],
+    [
+      describeHelp(
+        flag("--json", "-j"),
+        "Print as ISO 8601, e.g. 2023-08-08T03:38:58.570Z.",
+      ),
+      isBooleanAt("outputAsJSON"),
+    ],
+    [
+      describeHelp(
+        flag("--sheet"),
+        "Print as a spreadsheet formula =DATE()+TIME().",
+      ),
+      isBooleanAt("outputAsSheet"),
+    ],
+    [
+      describeHelp(
+        flag("--utc"),
+        "Print as RFC 7231, e.g. Tue, 08 Aug 2023 03:38:58 GMT.",
+      ),
+      isBooleanAt("outputAsUTC"),
+    ],
+    [
+      describeHelp(flag("--epoch"), "Print as unix time in seconds."),
+      isBooleanAt("outputAsEpoch"),
+    ],
+    [
+      describeHelp(flag("--epoch-ms"), "Print as unix time in milliseconds."),
+      isBooleanAt("outputAsEpochMS"),
+    ],
+    [
+      describeHelp(
+        flag("--instant"),
+        "Print as Temporal.Instant, e.g. 2023-08-08T03:38:58.57Z.",
+      ),
+      isBooleanAt("outputAsInstant"),
+    ],
+    [
+      describeHelp(
+        flag("--zoned-date-time"),
+        "Print as Temporal.ZonedDateTime.",
+      ),
+      isBooleanAt("outputAsZonedDateTime"),
+    ],
+    [
+      describeHelp(
+        flag("--plain-date-time"),
+        "Print as Temporal.PlainDateTime, e.g. 2023-08-07T23:38:58.57.",
+      ),
+      isBooleanAt("outputAsPlainDateTime"),
+    ],
+    [
+      describeHelp(
+        flag("--plain-date"),
+        "Print as Temporal.PlainDate, e.g. 2023-08-07.",
+      ),
+      isBooleanAt("outputAsPlainDate"),
+    ],
+    [
+      describeHelp(
+        flag("--plain-time"),
+        "Print as Temporal.PlainTime, e.g. 23:38:58.57.",
+      ),
+      isBooleanAt("outputAsPlainTime"),
+    ],
+    [
+      describeHelp(
+        flag("--plain-year-month"),
+        "Print as Temporal.PlainYearMonth, e.g. 2023-08.",
+      ),
+      isBooleanAt("outputAsPlainYearMonth"),
+    ],
+    [
+      describeHelp(
+        flag("--plain-month-day"),
+        "Print as Temporal.PlainMonthDay, e.g. 08-07.",
+      ),
+      isBooleanAt("outputAsPlainMonthDay"),
+    ],
+    [
+      describeHelp(flag("--help", "-h"), "Show this help."),
+      isBooleanAt("showHelp"),
+    ],
+    [
+      describeHelp(flag("--zero", "-z"), "Do not print the final new line."),
       ({ flags }) => Reflect.set(flags, "insertFinalNewLine", false),
     ],
   ];
@@ -139,6 +246,7 @@ export function makeFlags(args: string[]) {
   const {
     transformOptions,
     optionsLabels,
+    optionsHelp,
   } = rules.reduce((acc, rule) => {
     const [test] = rule;
 
@@ -149,10 +257,21 @@ export function makeFlags(args: string[]) {
       Reflect.set(acc.optionsLabels, name, { label: withLabel });
     }
 
+    acc.optionsHelp.push({
+      names: [...test.names ?? []],
+      label: withLabel,
+      description: getDescription(test),
+    });
+
     return acc;
   }, {
     transformOptions: {} as Record<string, null>,
     optionsLabels: {} as Record<string, { label?: string } | undefined>,
+    optionsHelp: [] as {
+      names: string[];
+      label?: string;
+      description?: string;
+    }[],
   });
 
   return {
@@ -181,5 +300,6 @@ export function makeFlags(args: string[]) {
     crontab,
     transformOptions,
     optionsLabels,
+    optionsHelp,
   };
 }
