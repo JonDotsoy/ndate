@@ -1,15 +1,199 @@
 export const snapshot = {};
 
 snapshot[`show help 1`] = `
-"Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|short|none>]
+"ndate - Date format to console.
 " +
-  "             [--time-style <full|long|medium|short|none>] [--hour-cycles <h11|h12|h23|h24|none>]
+  "
 " +
-  "             [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
+  "Usage: ndate [options]
 " +
-  "             [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
+  "
 " +
-  "             [--help] [-h] [--zero] [-z]
+  "Options:
+" +
+  "  -                           Read the date from stdin.
+" +
+  "  -d, --date <date>           Date to format: now or any value accepted by new Date().
+" +
+  "  --date-style <full|long|medium|short|none>
+" +
+  "                              Date style of the locale format. Default: full.
+" +
+  "  --time-style <full|long|medium|short|none>
+" +
+  "                              Time style of the locale format. Default: full.
+" +
+  "  --hour-cycles <h11|h12|h23|h24|none>
+" +
+  "                              Hour cycle of the locale format, e.g. h23 for 24 hours.
+" +
+  "  -tz, --time-zone <time-zone>
+" +
+  "                              IANA time zone, e.g. America/Santiago. Default: $TZ.
+" +
+  "  -l, --local <locale>        Locale, e.g. es-CL. Default: $LANG.
+" +
+  "  --template <template>       Render the date with a template (see template properties).
+" +
+  "  -j, --json                  Print as ISO 8601, e.g. 2023-08-08T03:38:58.570Z.
+" +
+  "  --sheet                     Print as a spreadsheet formula =DATE()+TIME().
+" +
+  "  --utc                       Print as RFC 7231, e.g. Tue, 08 Aug 2023 03:38:58 GMT.
+" +
+  "  --epoch                     Print as unix time in seconds.
+" +
+  "  --epoch-ms                  Print as unix time in milliseconds.
+" +
+  "  --instant                   Print as Temporal.Instant, e.g. 2023-08-08T03:38:58.57Z.
+" +
+  "  --zoned-date-time           Print as Temporal.ZonedDateTime.
+" +
+  "  --plain-date-time           Print as Temporal.PlainDateTime, e.g. 2023-08-07T23:38:58.57.
+" +
+  "  --plain-date                Print as Temporal.PlainDate, e.g. 2023-08-07.
+" +
+  "  --plain-time                Print as Temporal.PlainTime, e.g. 23:38:58.57.
+" +
+  "  --plain-year-month          Print as Temporal.PlainYearMonth, e.g. 2023-08.
+" +
+  "  --plain-month-day           Print as Temporal.PlainMonthDay, e.g. 08-07.
+" +
+  "  -h, --help                  Show this help.
+" +
+  "  -z, --zero                  Do not print the final new line.
+" +
+  "
+" +
+  "Template properties (--template '{{<property>}}'):
+" +
+  "  {{epoch}}               Unix time in seconds.
+" +
+  "  {{epoch_ms}}            Unix time in milliseconds.
+" +
+  "  {{json}}                ISO 8601 (alias of iso8601).
+" +
+  "  {{iso}}                 ISO 8601 (alias of iso8601).
+" +
+  "  {{iso8601}}             ISO 8601, e.g. 2023-08-08T03:38:58.570Z.
+" +
+  "  {{utc}}                 RFC 7231 (alias of rfc7231).
+" +
+  "  {{rfc7231}}             RFC 7231, e.g. Tue, 08 Aug 2023 03:38:58 GMT.
+" +
+  "  {{local}}               Locale format, same as the default output.
+" +
+  "  {{time}}                Result of date.getTime().
+" +
+  "  {{instant}}             Same as --instant.
+" +
+  "  {{zoned_date_time}}     Same as --zoned-date-time.
+" +
+  "  {{plain_date_time}}     Same as --plain-date-time.
+" +
+  "  {{plain_date}}          Same as --plain-date.
+" +
+  "  {{plain_time}}          Same as --plain-time.
+" +
+  "  {{plain_year_month}}    Same as --plain-year-month.
+" +
+  "  {{plain_month_day}}     Same as --plain-month-day.
+" +
+  "  {{YYYY}}                Year, 4 digits.
+" +
+  "  {{MM}}                  Month, 2 digits.
+" +
+  "  {{DD}}                  Day of month, 2 digits.
+" +
+  "  {{hh}}                  Hours, 2 digits (00-23).
+" +
+  "  {{mm}}                  Minutes, 2 digits.
+" +
+  "  {{ss}}                  Seconds, 2 digits.
+" +
+  "  {{ms}}                  Milliseconds, 3 digits.
+" +
+  "  {{full_year}}           Result of date.getFullYear().
+" +
+  "  {{month}}               Month, 1-12.
+" +
+  "  {{date}}                Result of date.getDate().
+" +
+  "  {{day}}                 Day of week, 0 (Sunday) to 6.
+" +
+  "  {{hours}}               Result of date.getHours().
+" +
+  "  {{minutes}}             Result of date.getMinutes().
+" +
+  "  {{seconds}}             Result of date.getSeconds().
+" +
+  "  {{milliseconds}}        Result of date.getMilliseconds().
+" +
+  "  {{timezone_offset}}     Result of date.getTimezoneOffset().
+" +
+  "  {{utc_full_year}}       Result of date.getUTCFullYear().
+" +
+  "  {{utc_month}}           UTC month, 1-12.
+" +
+  "  {{utc_date}}            Result of date.getUTCDate().
+" +
+  "  {{utc_day}}             Result of date.getUTCDay().
+" +
+  "  {{utc_hours}}           Result of date.getUTCHours().
+" +
+  "  {{utc_minutes}}         Result of date.getUTCMinutes().
+" +
+  "  {{utc_seconds}}         Result of date.getUTCSeconds().
+" +
+  "  {{utc_milliseconds}}    Result of date.getUTCMilliseconds().
+" +
+  "  {{local_day}}           \"day\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_dayPeriod}}     \"dayPeriod\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_era}}           \"era\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_hour}}          \"hour\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_literal}}       \"literal\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_minute}}        \"minute\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_month}}         \"month\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_second}}        \"second\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_timeZoneName}}  \"timeZoneName\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_weekday}}       \"weekday\" part of Intl.DateTimeFormat.
+" +
+  "  {{local_year}}          \"year\" part of Intl.DateTimeFormat.
+" +
+  "
+" +
+  "Template transforms (--template '{{<property>:<transform>}}'):
+" +
+  "  json                      Quote the value as a JSON string.
+" +
+  "  sub:<start>:<end>         Substring from <start> to <end>.
+" +
+  "  padStart:<length>:<fill>  Pad the start up to <length> with <fill>.
+" +
+  "  padEnd:<length>:<fill>    Pad the end up to <length> with <fill>.
+" +
+  "
+" +
+  "Examples:
+" +
+  "  ndate -d now
+" +
+  "  ndate -d 2023-08-08T03:38:58Z -tz America/Santiago -l es-CL
+" +
+  "  ndate --template '{{YYYY}}-{{MM}}-{{DD}} {{hh}}:{{mm}}'
+" +
+  "  ndate --template '{{month:padStart:2:0}}'
+" +
+  "  echo 2023-08-08T03:38:58Z | ndate - --epoch
 "
 `;
 

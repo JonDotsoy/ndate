@@ -7,6 +7,7 @@ export const toDateStyle = (v: DateStyle) => v === "none" ? undefined : v
 export const toTimeStyleString = (v: unknown): TimeStyle => typeof v === "string" ? timeStyles.find(timeStyle => timeStyle.startsWith(v)) ?? "none" : "none";
 export const toTimeStyle = (v: TimeStyle) => v === "none" ? undefined : v
 export const dateParse = (val: string): Date => {
+    if (val === "now") return new Date();
     const d = new Date(val);
     if (Number.isNaN(Number(d))) {
         throw new Error(`the ${Deno.inspect(val)} time stamp no valid`);

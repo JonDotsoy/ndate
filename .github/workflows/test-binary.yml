@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - development
+      - release/*
+  pull_request:
+
+name: test-binary
+
+jobs:
+  test-binary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno compile --allow-env=TZ,LANG --output ./bin/ndate ndate.ts
+      - run: deno test --allow-run --allow-env --allow-read ndate.bin.spec.ts
+        env:
+          NDATE_BIN: ./bin/ndate
