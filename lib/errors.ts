@@ -1,7 +1,7 @@
 // Errors whose message is enough for the user; any other error is printed
 // in full (with its stack trace) because it is not expected.
 const printableErrorPatterns = [
-  /^Unknown argument: /,
+  /^Unexpected argument: /,
   /time stamp no valid$/,
 ];
 
