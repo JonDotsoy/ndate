@@ -26,6 +26,18 @@ Or install with deno:
 deno install --allow-env=TZ,LANG https://deno.land/x/ndate@morgan-v0.4.3/ndate.ts
 ```
 
+### Shell completions
+
+The [`completions/`](./completions) folder has completion scripts for zsh and bash.
+
+```shell
+# zsh: copy it as `_ndate` into a folder on your $fpath, then run compinit
+cp completions/ndate.zsh ~/.zsh/completions/_ndate
+
+# bash: source it from ~/.bashrc
+source /path/to/completions/ndate.bash
+```
+
 Samples use:
 
 ```shell
