@@ -61,6 +61,7 @@ interface Options {
   outputAsPlainMonthDay: boolean;
   stdinReadable: boolean;
   showHelp: boolean;
+  showVersion: boolean;
   template: string;
   crontab: string;
 }
@@ -212,6 +213,10 @@ export function makeFlags(args: string[]) {
       isBooleanAt("showHelp"),
     ],
     [
+      describeHelp(flag("--version", "-v"), "Show the ndate version."),
+      isBooleanAt("showVersion"),
+    ],
+    [
       describeHelp(flag("--zero", "-z"), "Do not print the final new line."),
       ({ flags }) => Reflect.set(flags, "insertFinalNewLine", false),
     ],
@@ -237,6 +242,7 @@ export function makeFlags(args: string[]) {
     outputAsPlainMonthDay = false,
     stdinReadable = false,
     showHelp = false,
+    showVersion = false,
     local,
     timeZone,
     template,
@@ -296,6 +302,7 @@ export function makeFlags(args: string[]) {
     outputAsPlainMonthDay,
     stdinReadable,
     showHelp,
+    showVersion,
     template,
     crontab,
     transformOptions,

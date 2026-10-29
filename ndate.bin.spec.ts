@@ -79,6 +79,19 @@ Deno.test("bin: show long help", async (t) => {
   }
 });
 
+Deno.test("bin: show version", async (t) => {
+  const expected = (await Deno.readTextFile(
+    new URL("./version", import.meta.url),
+  )).trim();
+  for (const flag of ["-v", "--version"]) {
+    await t.step(flag, async () => {
+      const { code, stdout } = await ndate([flag]);
+      assertEquals(code, 0);
+      assertEquals(stdout, `${expected}\n`);
+    });
+  }
+});
+
 Deno.test("bin: -d now uses the current date", async () => {
   const before = Date.now();
   const { code, stdout } = await ndate(["-z", "-d", "now", "--epoch-ms"]);

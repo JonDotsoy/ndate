@@ -20,6 +20,7 @@ import {
   toPlainYearMonthString,
   toZonedDateTimeString,
 } from "./lib/temporal.ts";
+import { version } from "./lib/version.ts";
 import { makeFlags } from "./makeFlags.ts";
 
 const renderSheet = (date: Date) => {
@@ -155,6 +156,7 @@ export const handler = async function* (
     outputAsUTC,
     stdinReadable,
     showHelp,
+    showVersion,
     template,
     transformOptions,
     outputAsSheet,
@@ -168,6 +170,11 @@ export const handler = async function* (
     optionsLabels,
     optionsHelp,
   } = makeFlags(args);
+
+  if (showVersion) {
+    yield new TextEncoder().encode(`${version}\n`);
+    return;
+  }
 
   if (showHelp) {
     yield* makeLongHelpDialog(optionsHelp);

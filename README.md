@@ -8,7 +8,8 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
              [--time-zone <time-zone>] [-tz <time-zone>] [--local <locale>] [-l <locale>]
              [--template <template>] [--json] [-j] [--sheet] [--utc] [--epoch] [--epoch-ms]
              [--instant] [--zoned-date-time] [--plain-date-time] [--plain-date] [--plain-time]
-             [--plain-year-month] [--plain-month-day] [--help] [-h] [--zero] [-z]
+             [--plain-year-month] [--plain-month-day] [--help] [-h] [--version] [-v]
+             [--zero] [-z]
 
 Run `ndate --help` to see every flag and template property.
 ```
@@ -73,6 +74,7 @@ ndate --sheet # =DATE(2023;10;28)+TIME(1;17;12)
   --plain-year-month          Print as Temporal.PlainYearMonth, e.g. 2023-08.
   --plain-month-day           Print as Temporal.PlainMonthDay, e.g. 08-07.
   -h, --help                  Show this help.
+  -v, --version               Show the ndate version.
   -z, --zero                  Do not print the final new line.
 ```
 
