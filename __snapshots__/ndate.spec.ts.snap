@@ -65,6 +65,8 @@ snapshot[`show help 1`] = `
 " +
   "  -z, --zero                  Do not print the final new line.
 " +
+  "  --verbose                   Show the stack trace of errors.
+" +
   "
 " +
   "Template properties (--template '{{<property>}}'):

@@ -108,7 +108,8 @@ _ndate() {
     '--plain-time[print as Temporal.PlainTime]' \
     '--plain-year-month[print as Temporal.PlainYearMonth]' \
     '--plain-month-day[print as Temporal.PlainMonthDay]' \
-    '(--zero -z)'{--zero,-z}'[do not print the final new line]'
+    '(--zero -z)'{--zero,-z}'[do not print the final new line]' \
+    '--verbose[show the stack trace of errors]'
 }
 
 _ndate "$@"

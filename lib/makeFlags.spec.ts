@@ -12,6 +12,11 @@ Deno.test("should parse zero argument", () => {
   assertEquals(makeFlags2(["--zero"]).insertFinalNewLine, false);
 });
 
+Deno.test("should parse verbose argument", () => {
+  assertEquals(makeFlags2([]).verbose, false);
+  assertEquals(makeFlags2(["--verbose"]).verbose, true);
+});
+
 Deno.test("should parse date argument", () => {
   assertInstanceOf(makeFlags2([]).date, Date);
   assertEquals(

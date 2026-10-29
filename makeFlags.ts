@@ -64,6 +64,7 @@ interface Options {
   showVersion: boolean;
   template: string;
   crontab: string;
+  verbose: boolean;
 }
 
 const isArgumentTransformAt =
@@ -220,6 +221,10 @@ export function makeFlags(args: string[]) {
       describeHelp(flag("--zero", "-z"), "Do not print the final new line."),
       ({ flags }) => Reflect.set(flags, "insertFinalNewLine", false),
     ],
+    [
+      describeHelp(flag("--verbose"), "Show the stack trace of errors."),
+      isBooleanAt("verbose"),
+    ],
   ];
 
   const {
@@ -243,6 +248,7 @@ export function makeFlags(args: string[]) {
     stdinReadable = false,
     showHelp = false,
     showVersion = false,
+    verbose = false,
     local,
     timeZone,
     template,
@@ -303,6 +309,7 @@ export function makeFlags(args: string[]) {
     stdinReadable,
     showHelp,
     showVersion,
+    verbose,
     template,
     crontab,
     transformOptions,
