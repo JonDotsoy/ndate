@@ -1,0 +1,83 @@
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version to bump
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+
+name: release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Test
+        run: deno test --allow-run --allow-env --allow-read ndate.bin.spec.ts
+
+      - id: version
+        name: Bump version
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          current="$(tr -d '[:space:]' < version)"
+          IFS=. read -r major minor patch <<< "${current#v}"
+          case "$BUMP" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+          next="v${major}.${minor}.${patch}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${next}" > /dev/null; then
+            echo "::error::Tag ${next} already exists"
+            exit 1
+          fi
+          printf '%s' "$next" > version
+          echo "Releasing ${current} -> ${next}"
+          echo "tag=${next}" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and tag
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: release ${TAG}"
+          git tag "$TAG"
+          git push origin "HEAD:${GITHUB_REF_NAME}" "$TAG"
+
+      - name: Compile binaries
+        run: |
+          mkdir -p dist
+          for target in \
+            x86_64-unknown-linux-gnu \
+            aarch64-unknown-linux-gnu \
+            x86_64-apple-darwin \
+            aarch64-apple-darwin \
+            x86_64-pc-windows-msvc; do
+            deno compile --allow-env=TZ,LANG --target "$target" --output "dist/ndate-${target}" ndate.ts
+          done
+          ls -la dist
+
+      - name: Test compiled binary
+        run: deno test --allow-run --allow-env --allow-read ndate.bin.spec.ts
+        env:
+          NDATE_BIN: ./dist/ndate-x86_64-unknown-linux-gnu
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: gh release create "$TAG" dist/* --title "$TAG" --generate-notes --target "$GITHUB_REF_NAME"
