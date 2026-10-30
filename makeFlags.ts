@@ -9,7 +9,7 @@ import {
   toHourCycleString,
   toTimeStyleString,
 } from "./lib/common.ts";
-import { flag, flags } from "npm:@jondotsoy/flags@3.2.1";
+import { flag, flags } from "npm:@jondotsoy/flags@3.3.4";
 
 interface Rule {
   names: string[];
