@@ -1,4 +1,5 @@
 import { assertSnapshot } from "https://deno.land/std@0.195.0/testing/snapshot.ts";
+import { assertEquals } from "https://deno.land/std@0.195.0/assert/mod.ts";
 import { handler } from "./handler.ts";
 
 const ArrayFromAsync = async <T, R = T>(iterator: AsyncIterable<T>, mapFn?: (element: T, index: number) => R, thisArg?: any): Promise<R[]> => {
@@ -246,3 +247,14 @@ Deno.test("format template with transform", async (t) => {
     ),
   );
 })
+
+Deno.test("format positional template", async () => {
+  const run = async (...args: string[]) =>
+    new TextDecoder().decode(
+      await joinUint8ArrayGenerator(handler(["-z", "-tz", "UTC", ...args])),
+    );
+  const date = ["-d", "2023-08-08T03:38:58.570Z"];
+  assertEquals(await run(...date, "+{{YYYY}}-{{MM}}-{{DD}}"), "2023-08-08");
+  assertEquals(await run("+{{YYYY}}", ...date), "2023");
+  assertEquals(await run(...date, "--template", "{{MM}}"), "08");
+});

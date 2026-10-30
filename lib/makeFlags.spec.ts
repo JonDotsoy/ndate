@@ -171,3 +171,19 @@ Deno.test("should get the optionsLabels field", () => {
     },
   });
 });
+
+Deno.test("should parse template argument", () => {
+  assertEquals(makeFlags2([]).template, undefined);
+  assertEquals(makeFlags2(["--template", "{{YYYY}}"]).template, "{{YYYY}}");
+  assertEquals(makeFlags2(["+{{YYYY}}-{{MM}}"]).template, "{{YYYY}}-{{MM}}");
+  assertEquals(makeFlags2(["-z", "+{{YYYY}}", "-j"]).template, "{{YYYY}}");
+  assertEquals(
+    makeFlags2(["--template", "{{MM}}", "+{{YYYY}}"]).template,
+    "{{MM}}",
+  );
+});
+
+Deno.test("should not take a flag value as positional template", () => {
+  const parsed = makeFlags2(["--template", "+{{YYYY}}"]);
+  assertEquals(parsed.template, "+{{YYYY}}");
+});

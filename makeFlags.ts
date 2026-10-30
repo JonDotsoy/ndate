@@ -9,7 +9,7 @@ import {
   toHourCycleString,
   toTimeStyleString,
 } from "./lib/common.ts";
-import { flag, flags } from "npm:@jondotsoy/flags@3.2.1";
+import { flag, flags } from "npm:@jondotsoy/flags@3.3.4";
 
 interface Rule {
   names: string[];
@@ -58,7 +58,7 @@ export function makeFlags(args: string[]) {
     ),
     rule(
       ["--template"],
-      "Render the date with a template (see template properties).",
+      "Render the date with a template (see template properties). Also +<template>.",
       "<template>",
     ),
     rule(
@@ -115,6 +115,18 @@ export function makeFlags(args: string[]) {
   const whenGiven = <T>(fn: (value: string) => T) => (value: string | null) =>
     value === null ? null : fn(value);
 
+  // Like `date +FORMAT`: an argument starting with "+" is a template, unless
+  // it is the value of a flag that takes one (e.g. `-d +1`).
+  const valueFlags = new Set(
+    rules.filter((r) => r.label).flatMap((r) => r.names),
+  );
+  let positionalTemplate: string | undefined;
+  const flagArgs = args.filter((arg, i) => {
+    if (!arg.startsWith("+") || valueFlags.has(args[i - 1])) return true;
+    positionalTemplate = arg.slice(1);
+    return false;
+  });
+
   const parsed = flags({
     stdinReadable: bool("-"),
     date: str("--date").transform(whenGiven(dateParse)),
@@ -140,7 +152,7 @@ export function makeFlags(args: string[]) {
     showVersion: bool("--version"),
     zero: bool("--zero"),
     verbose: bool("--verbose"),
-  }).parse(args);
+  }).parse(flagArgs);
 
   const {
     zero,
@@ -172,7 +184,7 @@ export function makeFlags(args: string[]) {
     date: date ?? new Date(),
     local: local ?? undefined,
     timeZone: timeZone ?? undefined,
-    template: template ?? undefined,
+    template: template ?? positionalTemplate,
     transformOptions,
     optionsLabels,
     optionsHelp: rules.map((r) => ({ ...r, names: [...r.names] })),
