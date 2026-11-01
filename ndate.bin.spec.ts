@@ -215,6 +215,14 @@ Deno.test("bin: fails with empty stdin", async () => {
   assertStringIncludes(stderr, "no valid");
 });
 
+Deno.test("bin: fails with stdin that is not a TTY and has no data", async () => {
+  // No stdin given: the child gets /dev/null, so stdin is neither a TTY nor a pipe.
+  const { code, stdout, stderr } = await ndate(["-", "-z", "--json"]);
+  assertNotEquals(code, 0);
+  assertEquals(stdout, "");
+  assertStringIncludes(stderr, "no valid");
+});
+
 Deno.test("bin: fails with an invalid date", async () => {
   const { code, stdout, stderr } = await ndate(["-d", "not a date"]);
   assertNotEquals(code, 0);
