@@ -210,3 +210,21 @@ Deno.test("bin: --verbose prints the stack trace of the error", async () => {
   assertStringIncludes(stderr, "Unexpected argument: --no-valid-flag");
   assertStringIncludes(stderr, "    at ");
 });
+
+for (
+  const [flagName, value] of [
+    ["--time-zone", "Nope/Zone"],
+    ["--local", "not a locale"],
+    ["--date-style", "bogus"],
+    ["--time-style", "bogus"],
+    ["--hour-cycles", "h99"],
+  ]
+) {
+  Deno.test(`bin: invalid ${flagName} prints a clear message without stack`, async () => {
+    const { code, stdout, stderr } = await ndate([flagName, value]);
+    assertEquals(code, 1);
+    assertEquals(stdout, "");
+    assertStringIncludes(stderr, `Invalid value "${value}" for ${flagName}`);
+    assert(!stderr.includes("    at "));
+  });
+}
