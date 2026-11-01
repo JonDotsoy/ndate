@@ -23,7 +23,7 @@ brew install jondotsoy/core/ndate
 Or install with deno:
 
 ```shell
-deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/releases/download/v0.5.5/ndate.js
+deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/releases/download/v0.5.6/ndate.js
 ```
 
 ### Shell completions
