@@ -20,6 +20,7 @@ import {
   toPlainYearMonthString,
   toZonedDateTimeString,
 } from "./lib/temporal.ts";
+import { completionShells, isCompletionShell, renderCompletion } from "./lib/completions.ts";
 import { version } from "./lib/version.ts";
 import { makeFlags } from "./makeFlags.ts";
 
@@ -143,6 +144,17 @@ const wrapLines = function* (title: string, items: string[]) {
 export const handler = async function* (
   args: string[],
 ): AsyncGenerator<Uint8Array> {
+  if (args[0] === "completion") {
+    const shell = args[1];
+    if (!isCompletionShell(shell)) {
+      throw new Error(
+        `Unexpected argument: ${shell ?? "(missing shell)"}. Usage: ndate completion <${completionShells.join("|")}>`,
+      );
+    }
+    yield new TextEncoder().encode(renderCompletion(shell));
+    return;
+  }
+
   let {
     hourCycle,
     dateStyle,
