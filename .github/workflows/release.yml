@@ -46,6 +46,7 @@ jobs:
           fi
           printf '%s' "$next" > version
           sed -i "s/^export const version = .*/export const version = \"${next}\";/" lib/version.ts
+          sed -i -E "s#(releases/download/)v[0-9]+\.[0-9]+\.[0-9]+(/ndate\.js)#\1${next}\2#" README.md
           echo "Releasing ${current} -> ${next}"
           echo "tag=${next}" >> "$GITHUB_OUTPUT"
 
