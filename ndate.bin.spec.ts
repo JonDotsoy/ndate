@@ -190,6 +190,31 @@ Deno.test("bin: read date from stdin", async () => {
   assertEquals(stdout, "2023-08-08T03:38:58.570Z");
 });
 
+Deno.test("bin: read date from stdin without trailing newline", async () => {
+  const { code, stdout } = await ndate(
+    ["-", "-z", "--json"],
+    "2023-08-08T03:38:58.570Z",
+  );
+  assertEquals(code, 0);
+  assertEquals(stdout, "2023-08-08T03:38:58.570Z");
+});
+
+Deno.test("bin: read long date from stdin (more than 256 bytes)", async () => {
+  const { code, stdout } = await ndate(
+    ["-", "-z", "--json"],
+    `${" ".repeat(300)}2023-08-08T03:38:58.570Z\n`,
+  );
+  assertEquals(code, 0);
+  assertEquals(stdout, "2023-08-08T03:38:58.570Z");
+});
+
+Deno.test("bin: fails with empty stdin", async () => {
+  const { code, stdout, stderr } = await ndate(["-", "-z", "--json"], "");
+  assertNotEquals(code, 0);
+  assertEquals(stdout, "");
+  assertStringIncludes(stderr, "no valid");
+});
+
 Deno.test("bin: fails with an invalid date", async () => {
   const { code, stdout, stderr } = await ndate(["-d", "not a date"]);
   assertNotEquals(code, 0);
