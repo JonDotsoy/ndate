@@ -73,6 +73,9 @@ _ndate_template_properties() {
     'ms:millisecond in local time'
   )
 
+  # A positional template is written as +<template>, like date +FORMAT.
+  compset -P '+'
+
   # Complete a property after an opening "{{" that is not closed yet.
   if [[ $PREFIX == *'{{'* && ${PREFIX##*'{{'} != *'}}'* ]]; then
     compset -P '*{{'
@@ -109,7 +112,8 @@ _ndate() {
     '--plain-year-month[print as Temporal.PlainYearMonth]' \
     '--plain-month-day[print as Temporal.PlainMonthDay]' \
     '(--zero -z)'{--zero,-z}'[do not print the final new line]' \
-    '--verbose[show the stack trace of errors]'
+    '--verbose[show the stack trace of errors]' \
+    '*:+template:_ndate_template_properties'
 }
 
 _ndate "$@"
