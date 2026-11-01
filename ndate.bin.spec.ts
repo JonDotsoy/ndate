@@ -223,6 +223,27 @@ Deno.test("bin: fails with stdin that is not a TTY and has no data", async () =>
   assertStringIncludes(stderr, "no valid");
 });
 
+Deno.test("bin: read date from stdin in a non-interactive shell", async () => {
+  // `sh -c` is non-interactive: no TTY, no profile, stdin comes from a pipe.
+  const cmd = ndateBin
+    ? [ndateBin]
+    : [Deno.execPath(), "run", "--quiet", "--allow-env=TZ,LANG", entryPoint];
+  const { code, stdout, stderr } = await new Deno.Command("sh", {
+    args: [
+      "-c",
+      'printf "%s" "2023-08-08T03:38:58.570Z" | "$@" - -z --json',
+      "sh",
+      ...cmd,
+    ],
+    stdin: "null",
+    stdout: "piped",
+    stderr: "piped",
+  }).output();
+  assertEquals(new TextDecoder().decode(stderr), "");
+  assertEquals(code, 0);
+  assertEquals(new TextDecoder().decode(stdout), "2023-08-08T03:38:58.570Z");
+});
+
 Deno.test("bin: fails with an invalid date", async () => {
   const { code, stdout, stderr } = await ndate(["-d", "not a date"]);
   assertNotEquals(code, 0);
