@@ -1,3 +1,8 @@
+// Raised when the value of an option is not valid.
+export class InvalidOptionError extends Error {
+  override name = "InvalidOptionError";
+}
+
 // Errors whose message is enough for the user; any other error is printed
 // in full (with its stack trace) because it is not expected.
 const printableErrorPatterns = [
@@ -6,8 +11,9 @@ const printableErrorPatterns = [
 ];
 
 export const isPrintableError = (error: unknown): error is Error =>
+  error instanceof InvalidOptionError ||
   error instanceof Error &&
-  printableErrorPatterns.some((pattern) => pattern.test(error.message));
+    printableErrorPatterns.some((pattern) => pattern.test(error.message));
 
 export const formatError = (error: unknown, verbose = false): string =>
   !verbose && isPrintableError(error) ? error.message : Deno.inspect(error);

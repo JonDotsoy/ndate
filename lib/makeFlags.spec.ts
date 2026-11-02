@@ -3,8 +3,10 @@ import {
   assertEquals,
   assertInstanceOf,
   assertObjectMatch,
+  assertThrows,
 } from "https://deno.land/std@0.204.0/assert/mod.ts";
 import { makeFlags as makeFlags2 } from "../makeFlags.ts";
+import { InvalidOptionError } from "./errors.ts";
 
 Deno.test("should parse zero argument", () => {
   assertEquals(makeFlags2([]).insertFinalNewLine, true);
@@ -37,13 +39,13 @@ Deno.test("should parse help argument", () => {
 
 Deno.test("should parse date-style argument", () => {
   assertEquals(makeFlags2([]).dateStyle, "full");
-  assertEquals(makeFlags2(["--date-style", "other"]).dateStyle, "none");
+  assertThrows(() => makeFlags2(["--date-style", "other"]), InvalidOptionError);
   assertEquals(makeFlags2(["--date-style", "medium"]).dateStyle, "medium");
 });
 
 Deno.test("should parse time-style argument", () => {
   assertEquals(makeFlags2([]).timeStyle, "full");
-  assertEquals(makeFlags2(["--time-style", "other"]).timeStyle, "none");
+  assertThrows(() => makeFlags2(["--time-style", "other"]), InvalidOptionError);
   assertEquals(makeFlags2(["--time-style", "medium"]).timeStyle, "medium");
 });
 
@@ -51,6 +53,14 @@ Deno.test("should parse hour-cycles argument", () => {
   assertEquals(makeFlags2([]).hourCycle, "none");
   assertEquals(makeFlags2(["--hour-cycles", "h23"]).hourCycle, "h23");
   assertEquals(makeFlags2(["--hour-cycles", "h12"]).hourCycle, "h12");
+  assertThrows(() => makeFlags2(["--hour-cycles", "h99"]), InvalidOptionError);
+});
+
+Deno.test("should reject an invalid time zone or locale", () => {
+  assertThrows(() => makeFlags2(["--time-zone", "Nope/Zone"]), InvalidOptionError);
+  assertThrows(() => makeFlags2(["--local", "not a locale"]), InvalidOptionError);
+  assertEquals(makeFlags2(["--time-zone", "America/Santiago"]).timeZone, "America/Santiago");
+  assertEquals(makeFlags2(["--local", "es-CL"]).local, "es-CL");
 });
 
 Deno.test("should parse time-zone argument", () => {
