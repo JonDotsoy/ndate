@@ -265,6 +265,32 @@ Deno.test("bin: --verbose prints the stack trace of the error", async () => {
   assertStringIncludes(stderr, "    at ");
 });
 
+Deno.test("bin: completion prints the script of each shell", async (t) => {
+  const markers = {
+    bash: "complete -F _ndate ndate",
+    zsh: "#compdef ndate",
+    fish: "complete -c ndate",
+  };
+  for (const [shell, marker] of Object.entries(markers)) {
+    await t.step(shell, async () => {
+      const { code, stdout, stderr } = await ndate(["completion", shell]);
+      assertEquals(code, 0);
+      assertEquals(stderr, "");
+      assertStringIncludes(stdout, marker);
+      assertStringIncludes(stdout, "epoch-ms");
+    });
+  }
+});
+
+Deno.test("bin: completion fails without a valid shell", async () => {
+  for (const args of [["completion"], ["completion", "powershell"]]) {
+    const { code, stderr } = await ndate(args);
+    assertEquals(code, 1);
+    assertStringIncludes(stderr, "Usage: ndate completion <bash|zsh|fish>");
+    assert(!stderr.includes("at "), "must not print a stack trace");
+  }
+});
+
 for (
   const [flagName, value] of [
     ["--time-zone", "Nope/Zone"],

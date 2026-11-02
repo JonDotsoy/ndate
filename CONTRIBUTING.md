@@ -26,3 +26,11 @@ Run the **release** workflow from the Actions tab (or `gh workflow run release.y
 2. Bumps the `version` file, commits it to the selected branch and pushes a `vX.Y.Z` tag.
 3. Compiles `ndate` for Linux, macOS (x86_64 and arm64) and Windows.
 4. Creates a GitHub release with generated notes and the binaries attached.
+
+## Shell completions
+
+`ndate completion <shell>` generates the scripts from `makeFlags.ts` and `lib/renderDateTemplate.ts`; do not edit the files in `completions/` by hand. After changing a flag or a template property, regenerate them (a test fails when they are out of date):
+
+```shell
+for s in bash zsh fish; do deno run --allow-env=TZ,LANG ndate.ts completion $s > completions/ndate.$s; done
+```

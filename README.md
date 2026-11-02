@@ -53,15 +53,21 @@ deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/rel
 
 ## Shell completions
 
-The [`completions/`](./completions) folder has completion scripts for zsh and bash.
+`ndate completion <shell>` prints the completion script for `bash`, `zsh` or `fish`. The options, their values and the `--template` properties are generated from the same source as `ndate --help`, so they always match the installed version.
 
 ```shell
-# zsh: copy it as `_ndate` into a folder on your $fpath, then run compinit
-cp completions/ndate.zsh ~/.zsh/completions/_ndate
+# bash: load it from ~/.bashrc
+source <(ndate completion bash)
 
-# bash: source it from ~/.bashrc
-source /path/to/completions/ndate.bash
+# zsh: save it as `_ndate` in a folder on your $fpath, then run compinit
+mkdir -p ~/.zsh/completions
+ndate completion zsh > ~/.zsh/completions/_ndate
+
+# fish
+ndate completion fish > ~/.config/fish/completions/ndate.fish
 ```
+
+The generated scripts are also kept in the [`completions/`](./completions) folder (used by the Homebrew formula).
 
 Samples use:
 
