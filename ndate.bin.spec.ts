@@ -190,6 +190,60 @@ Deno.test("bin: read date from stdin", async () => {
   assertEquals(stdout, "2023-08-08T03:38:58.570Z");
 });
 
+Deno.test("bin: read date from stdin without trailing newline", async () => {
+  const { code, stdout } = await ndate(
+    ["-", "-z", "--json"],
+    "2023-08-08T03:38:58.570Z",
+  );
+  assertEquals(code, 0);
+  assertEquals(stdout, "2023-08-08T03:38:58.570Z");
+});
+
+Deno.test("bin: read long date from stdin (more than 256 bytes)", async () => {
+  const { code, stdout } = await ndate(
+    ["-", "-z", "--json"],
+    `${" ".repeat(300)}2023-08-08T03:38:58.570Z\n`,
+  );
+  assertEquals(code, 0);
+  assertEquals(stdout, "2023-08-08T03:38:58.570Z");
+});
+
+Deno.test("bin: fails with empty stdin", async () => {
+  const { code, stdout, stderr } = await ndate(["-", "-z", "--json"], "");
+  assertNotEquals(code, 0);
+  assertEquals(stdout, "");
+  assertStringIncludes(stderr, "no valid");
+});
+
+Deno.test("bin: fails with stdin that is not a TTY and has no data", async () => {
+  // No stdin given: the child gets /dev/null, so stdin is neither a TTY nor a pipe.
+  const { code, stdout, stderr } = await ndate(["-", "-z", "--json"]);
+  assertNotEquals(code, 0);
+  assertEquals(stdout, "");
+  assertStringIncludes(stderr, "no valid");
+});
+
+Deno.test("bin: read date from stdin in a non-interactive shell", async () => {
+  // `sh -c` is non-interactive: no TTY, no profile, stdin comes from a pipe.
+  const cmd = ndateBin
+    ? [ndateBin]
+    : [Deno.execPath(), "run", "--quiet", "--allow-env=TZ,LANG", entryPoint];
+  const { code, stdout, stderr } = await new Deno.Command("sh", {
+    args: [
+      "-c",
+      'printf "%s" "2023-08-08T03:38:58.570Z" | "$@" - -z --json',
+      "sh",
+      ...cmd,
+    ],
+    stdin: "null",
+    stdout: "piped",
+    stderr: "piped",
+  }).output();
+  assertEquals(new TextDecoder().decode(stderr), "");
+  assertEquals(code, 0);
+  assertEquals(new TextDecoder().decode(stdout), "2023-08-08T03:38:58.570Z");
+});
+
 Deno.test("bin: fails with an invalid date", async () => {
   const { code, stdout, stderr } = await ndate(["-d", "not a date"]);
   assertNotEquals(code, 0);
@@ -236,3 +290,21 @@ Deno.test("bin: completion fails without a valid shell", async () => {
     assert(!stderr.includes("at "), "must not print a stack trace");
   }
 });
+
+for (
+  const [flagName, value] of [
+    ["--time-zone", "Nope/Zone"],
+    ["--local", "not a locale"],
+    ["--date-style", "bogus"],
+    ["--time-style", "bogus"],
+    ["--hour-cycles", "h99"],
+  ]
+) {
+  Deno.test(`bin: invalid ${flagName} prints a clear message without stack`, async () => {
+    const { code, stdout, stderr } = await ndate([flagName, value]);
+    assertEquals(code, 1);
+    assertEquals(stdout, "");
+    assertStringIncludes(stderr, `Invalid value "${value}" for ${flagName}`);
+    assert(!stderr.includes("    at "));
+  });
+}

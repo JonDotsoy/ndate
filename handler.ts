@@ -203,11 +203,7 @@ export const handler = async function* (
   if (local) Deno.env.set(`LANG`, local);
 
   if (stdinReadable) {
-    const buff = new Uint8Array(256);
-    await Deno.stdin.read(buff);
-    const text = new TextDecoder().decode(
-      buff.subarray(0, buff.findIndex((p) => p === 0)),
-    ).trim();
+    const text = (await new Response(Deno.stdin.readable).text()).trim();
     date = dateParse(text);
   }
 

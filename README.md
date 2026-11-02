@@ -14,19 +14,44 @@ Usage: ndate [-] [--date <date>] [-d <date>] [--date-style <full|long|medium|sho
 Run `ndate --help` to see every flag and template property.
 ```
 
+## Install
+
+### Homebrew
+
 Install with [homebrew](https://brew.sh/):
 
 ```shell
 brew install jondotsoy/core/ndate
 ```
 
-Or install with deno:
+### Standalone binaries
+
+Each [GitHub release](https://github.com/JonDotsoy/ndate/releases/latest) ships a binary that does not need Deno:
+
+| Platform | Asset |
+| --- | --- |
+| Linux x64 | `ndate-x86_64-unknown-linux-gnu` |
+| Linux arm64 | `ndate-aarch64-unknown-linux-gnu` |
+| macOS Intel | `ndate-x86_64-apple-darwin` |
+| macOS Apple Silicon | `ndate-aarch64-apple-darwin` |
+| Windows x64 | `ndate-x86_64-pc-windows-msvc` |
+
+```shell
+# example for Linux x64
+curl -fsSL -o ndate https://github.com/JonDotsoy/ndate/releases/latest/download/ndate-x86_64-unknown-linux-gnu
+chmod +x ndate
+sudo mv ndate /usr/local/bin/
+```
+
+### Deno (`ndate.js` bundle)
+
+The release also publishes the `ndate.js` bundle, which runs with [Deno](https://deno.com/):
 
 ```shell
 deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/releases/download/v0.5.6/ndate.js
 ```
 
-### Shell completions
+## Shell completions
 
 `ndate completion <shell>` prints the completion script for `bash`, `zsh` or `fish`. The options, their values and the `--template` properties are generated from the same source as `ndate --help`, so they always match the installed version.
 

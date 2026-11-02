@@ -7,7 +7,9 @@ import {
   timeStyles,
   toDateStyleString,
   toHourCycleString,
+  toLocaleString,
   toTimeStyleString,
+  toTimeZoneString,
 } from "./lib/common.ts";
 import { flag, flags } from "npm:@jondotsoy/flags@3.3.4";
 
@@ -133,8 +135,8 @@ export function makeFlags(args: string[]) {
     dateStyle: str("--date-style").transform(whenGiven(toDateStyleString)),
     timeStyle: str("--time-style").transform(whenGiven(toTimeStyleString)),
     hourCycle: str("--hour-cycles").transform(whenGiven(toHourCycleString)),
-    timeZone: str("--time-zone"),
-    local: str("--local"),
+    timeZone: str("--time-zone").transform(whenGiven(toTimeZoneString)),
+    local: str("--local").transform(whenGiven(toLocaleString)),
     template: str("--template"),
     outputAsJSON: bool("--json"),
     outputAsSheet: bool("--sheet"),

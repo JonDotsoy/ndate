@@ -1,0 +1,15 @@
+export const snapshot = {};
+
+snapshot[`printable error message: unexpected argument 1`] = `"Unexpected argument: --no-valid-flag"`;
+
+snapshot[`printable error message: invalid date 1`] = `'the "not a date" time stamp no valid'`;
+
+snapshot[`printable error message: invalid time zone 1`] = `'Invalid value "Nope/Zone" for --time-zone. Expected an IANA time zone, e.g. America/Santiago'`;
+
+snapshot[`printable error message: invalid locale 1`] = `'Invalid value "not a locale" for --local. Expected a BCP 47 locale, e.g. es-CL'`;
+
+snapshot[`printable error message: invalid date style 1`] = `'Invalid value "bogus" for --date-style. Expected one of: full, long, medium, short, none'`;
+
+snapshot[`printable error message: invalid time style 1`] = `'Invalid value "bogus" for --time-style. Expected one of: full, long, medium, short, none'`;
+
+snapshot[`printable error message: invalid hour cycles 1`] = `'Invalid value "h99" for --hour-cycles. Expected one of: h11, h12, h23, h24, none'`;
