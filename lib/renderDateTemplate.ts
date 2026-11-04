@@ -116,6 +116,9 @@ export const templateValues = (date: Date, locales?: string, options?: Intl.Date
 export const templateKeywords = Object.keys(templateValues(new Date(0)))
   .filter((keyword) => !keyword.startsWith("local_"));
 
+const unescapeLiteral = (text: string) =>
+  text.replace(/\\([tnr\\])/g, (_, c: string) => ({ t: "\t", n: "\n", r: "\r", "\\": "\\" })[c]!);
+
 export function renderDateTemplate(template: string, date: Date, locales?: string, options?: Intl.DateTimeFormatOptions) {
   const values = templateValues(date, locales, options);
 
@@ -144,14 +147,14 @@ export function renderDateTemplate(template: string, date: Date, locales?: strin
   do {
     p = regexp.exec(template);
     if(p) {
-      stringTemplate.push(template.substring(lastPointer, p.index));
+      stringTemplate.push(unescapeLiteral(template.substring(lastPointer, p.index)));
       lastPointer = p.index + p.at(0)!.length;
       const transform = transforms[p.groups?.transform ?? 'default'] ?? transforms.default;
       substitution.push(transform(values[p.groups!.keyword] ?? '', p.groups!.transform_options));
     }
   } while(p !== null);
 
-  stringTemplate.push(template.substring(lastPointer));
+  stringTemplate.push(unescapeLiteral(template.substring(lastPointer)));
 
   return String.raw({ raw: stringTemplate }, ...substitution);
 }
