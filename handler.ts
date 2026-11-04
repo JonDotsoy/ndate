@@ -90,7 +90,7 @@ const makeLongHelpDialog = function* (
   );
 
   yield* section(
-    "Template properties (--template '{{<property>}}'):",
+    "Template properties (--template '{{<prop>}}'):",
     [
       ...templateKeywords.map((keyword): [string, string] => [
         `{{${keyword}}}`,
@@ -104,7 +104,7 @@ const makeLongHelpDialog = function* (
   );
 
   yield* section(
-    "Template transforms (--template '{{<property>:<transform>}}'):",
+    "Template transforms (--template '{{<prop>:<transform>}}'):",
     templateTransformDescriptions,
   );
 
