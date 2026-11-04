@@ -69,7 +69,7 @@ snapshot[`show help 1`] = `
 " +
   "
 " +
-  "Template properties (--template '{{<property>}}'):
+  "Template properties (--template '{{<prop>}}'):
 " +
   "  {{epoch}}               Unix time in seconds.
 " +
@@ -175,19 +175,17 @@ snapshot[`show help 1`] = `
 " +
   "
 " +
-  "Template transforms (--template '{{<property>:<transform>}}'):
+  "Template transforms (--template '{{<prop>:<transform>}}'):
 " +
-  "  <property>:json             Quote the value as a JSON string.
+  "  <prop>:json                 Quote the value as a JSON string.
 " +
-  "  <property>:sub:<start>:<end>
+  "  <prop>:sub:<start>:<end>    Substring from <start> to <end>.
 " +
-  "                              Substring from <start> to <end>.
-" +
-  "  <property>:padStart:<length>:<fill>
+  "  <prop>:padStart:<length>:<fill>
 " +
   "                              Pad the start up to <length> with <fill>.
 " +
-  "  <property>:padEnd:<length>:<fill>
+  "  <prop>:padEnd:<length>:<fill>
 " +
   "                              Pad the end up to <length> with <fill>.
 " +
