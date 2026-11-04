@@ -258,3 +258,13 @@ Deno.test("format positional template", async () => {
   assertEquals(await run("+{{YYYY}}", ...date), "2023");
   assertEquals(await run(...date, "--template", "{{MM}}"), "08");
 });
+
+Deno.test("template escape sequences", async () => {
+  const run = async (...args: string[]) =>
+    new TextDecoder().decode(
+      await joinUint8ArrayGenerator(handler(["-z", "-tz", "UTC", "-d", "2023-08-08T03:38:58.570Z", ...args])),
+    );
+  assertEquals(await run("+{{time}}\\t{{iso8601}}"), "1691465938570\t2023-08-08T03:38:58.570Z");
+  assertEquals(await run("+{{YYYY}}\\n{{MM}}"), "2023\n08");
+  assertEquals(await run("+{{YYYY}}\\\\t{{MM}}"), "2023\\t08");
+});
