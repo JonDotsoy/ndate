@@ -74,7 +74,7 @@ Deno.test("bin: show long help", async (t) => {
       assertStringIncludes(stdout, "\n  {{epoch}} ");
       assertStringIncludes(stdout, "\n  {{utc_full_year}} ");
       assertStringIncludes(stdout, "\n  {{local_weekday}} ");
-      assertStringIncludes(stdout, "\n  padStart:<length>:<fill> ");
+      assertStringIncludes(stdout, "\n  <property>:padStart:<length>:<fill>\n");
     });
   }
 });
