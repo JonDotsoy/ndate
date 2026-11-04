@@ -177,13 +177,19 @@ snapshot[`show help 1`] = `
 " +
   "Template transforms (--template '{{<property>:<transform>}}'):
 " +
-  "  json                      Quote the value as a JSON string.
+  "  <property>:json             Quote the value as a JSON string.
 " +
-  "  sub:<start>:<end>         Substring from <start> to <end>.
+  "  <property>:sub:<start>:<end>
 " +
-  "  padStart:<length>:<fill>  Pad the start up to <length> with <fill>.
+  "                              Substring from <start> to <end>.
 " +
-  "  padEnd:<length>:<fill>    Pad the end up to <length> with <fill>.
+  "  <property>:padStart:<length>:<fill>
+" +
+  "                              Pad the start up to <length> with <fill>.
+" +
+  "  <property>:padEnd:<length>:<fill>
+" +
+  "                              Pad the end up to <length> with <fill>.
 " +
   "
 " +

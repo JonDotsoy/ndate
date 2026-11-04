@@ -144,7 +144,7 @@ ndate -d 2023-08-08T03:38:58Z --epoch # 1691465938
 echo 2023-08-08T03:38:58Z | ndate - --utc # Tue, 08 Aug 2023 03:38:58 GMT
 ```
 
-**3. Templates.** `--template` replaces each `{{property}}` (see [Options to `--template`](#options-to---template)) and accepts transforms with `{{property:transform}}`: `json`, `sub:<start>:<end>`, `padStart:<length>:<fill>` and `padEnd:<length>:<fill>`. Run `ndate -h` to list every property.
+**3. Templates.** `--template` replaces each `{{property}}` (see [Options to `--template`](#options-to---template)) and accepts transforms with `{{<property>:<transform>}}`: `<property>:json`, `<property>:sub:<start>:<end>`, `<property>:padStart:<length>:<fill>` and `<property>:padEnd:<length>:<fill>`. Run `ndate -h` to list every property.
 
 ```shell
 ndate -d 2023-08-08T03:38:58Z -tz America/Santiago --template '{{YYYY}}-{{MM}}-{{DD}} {{hh}}:{{mm}}:{{ss}}' # 2023-08-07 23:38:58

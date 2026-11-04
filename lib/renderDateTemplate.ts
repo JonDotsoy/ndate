@@ -3,10 +3,10 @@ import { toInstantString, toPlainDateString, toPlainDateTimeString, toPlainMonth
 export const localPartTypes = ["day", "dayPeriod", "era", "hour", "literal", "minute", "month", "second", "timeZoneName", "weekday", "year"] as const;
 
 export const templateTransformDescriptions: [string, string][] = [
-  ["json", "Quote the value as a JSON string."],
-  ["sub:<start>:<end>", "Substring from <start> to <end>."],
-  ["padStart:<length>:<fill>", "Pad the start up to <length> with <fill>."],
-  ["padEnd:<length>:<fill>", "Pad the end up to <length> with <fill>."],
+  ["<property>:json", "Quote the value as a JSON string."],
+  ["<property>:sub:<start>:<end>", "Substring from <start> to <end>."],
+  ["<property>:padStart:<length>:<fill>", "Pad the start up to <length> with <fill>."],
+  ["<property>:padEnd:<length>:<fill>", "Pad the end up to <length> with <fill>."],
 ];
 
 export const templateKeywordDescriptions: Record<string, string> = {
