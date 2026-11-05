@@ -167,6 +167,8 @@ const zshScript = () => {
 #   fpath=(~/.zsh/completions $fpath)
 #   autoload -Uz compinit && compinit
 # With Homebrew, it can live at "$(brew --prefix)/share/zsh/site-functions/_ndate".
+# Or load it in the current session (after compinit):
+#   source <(ndate completion zsh)
 
 _ndate_locales() {
   local -a locales
@@ -210,7 +212,13 @@ ${specs.map((spec) => `    ${spec} \\`).join("\n")}
     '*:+template:_ndate_template_properties'
 }
 
-_ndate "$@"
+# Autoloaded from $fpath (the function body runs on first completion), or
+# sourced with \`source <(ndate completion zsh)\` (only register it).
+if [[ $funcstack[1] == _ndate ]]; then
+  _ndate "$@"
+else
+  compdef _ndate ndate
+fi
 `;
 };
 

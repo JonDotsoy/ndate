@@ -63,6 +63,9 @@ source <(ndate completion bash)
 mkdir -p ~/.zsh/completions
 ndate completion zsh > ~/.zsh/completions/_ndate
 
+# zsh: or load it from ~/.zshrc, after compinit
+source <(ndate completion zsh)
+
 # fish
 ndate completion fish > ~/.config/fish/completions/ndate.fish
 ```
