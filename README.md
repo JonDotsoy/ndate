@@ -48,7 +48,7 @@ sudo mv ndate /usr/local/bin/
 The release also publishes the `ndate.js` bundle, which runs with [Deno](https://deno.com/):
 
 ```shell
-deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/releases/download/v0.5.8/ndate.js
+deno install --allow-env=TZ,LANG -n ndate https://github.com/JonDotsoy/ndate/releases/download/v0.5.9/ndate.js
 ```
 
 ## Shell completions
